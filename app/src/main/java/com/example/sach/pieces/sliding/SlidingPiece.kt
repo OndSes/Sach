@@ -29,4 +29,23 @@ abstract class SlidingPiece(board: Board, isWhite: Boolean, row: Int, col: Int) 
         }
         return moves.toTypedArray()
     }
+
+    override fun getAttackMoves(): Array<Square> {
+        val moves = mutableListOf<Square>()
+        var squareToCheck: Square
+        var x: Int = 1
+        for(direction in directions) {
+            while (board.isValidPosition(row + x * direction.rowDelta, col + x * direction.colDelta)) {
+                squareToCheck = board.getSquare(row + x * direction.rowDelta, col + x * direction.colDelta)
+                if (squareContainsPiece(squareToCheck)) {
+                    moves.add(squareToCheck)
+                    break
+                }
+                moves.add(squareToCheck)
+                x++
+            }
+            x = 1
+        }
+        return moves.toTypedArray()
+    }
 }

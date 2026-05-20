@@ -7,6 +7,7 @@ abstract class Piece(val board: Board, val isWhite: Boolean, var row: Int, var c
     var hasMoved: Boolean = false
     abstract fun getResourceId(): Int
     abstract fun getPossibleMoves(): Array<Square>
+    abstract fun getAttackMoves(): Array<Square>
 
     fun squareContainsPiece(square: Square): Boolean {
         return square.piece != null

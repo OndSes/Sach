@@ -3,6 +3,7 @@ package com.example.sach.board
 import android.content.Context
 import android.widget.GridLayout
 import com.example.sach.Game
+import com.example.sach.pieces.King
 import com.example.sach.pieces.Piece
 import com.example.sach.pieces.PieceGenerator
 
@@ -47,5 +48,19 @@ class Board(boardView: GridLayout, context: Context, game: Game) {
         } else {
             blackPieces.remove(piece)
         }
+    }
+
+    fun isSquareInCheck(squareToCheck: Square, whiteCheck: Boolean): Boolean {
+        val pieces: MutableList<Piece> = if (whiteCheck) { whitePieces } else { blackPieces }
+
+        for (piece in pieces) {
+            for (square in piece.getAttackMoves()) {
+                if (squareToCheck == square) {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }

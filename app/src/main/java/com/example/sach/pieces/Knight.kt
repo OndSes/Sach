@@ -34,4 +34,22 @@ class Knight(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, 
         }
         return moves.toTypedArray()
     }
+
+    override fun getAttackMoves(): Array<Square> {
+        val moves = mutableListOf<Square>()
+
+        for (i in listOf(-2,-1,1,2)) {
+            for (j in listOf(-2,-1,1,2)) {
+                if (i*i == j*j) {
+                    continue
+                }
+                if (!board.isValidPosition(row+i,col+j)) {
+                    continue
+                }
+
+                moves.add(board.getSquare(row+i,col+j))
+            }
+        }
+        return moves.toTypedArray()
+    }
 }

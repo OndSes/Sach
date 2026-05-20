@@ -46,4 +46,18 @@ class Pawn(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, is
         }
         return moves.toTypedArray()
     }
+
+    override fun getAttackMoves(): Array<Square> {
+        val moves = mutableListOf<Square>()
+        val movement = if (isWhite) { -1 } else { 1 }
+
+        if (board.isValidPosition(row + movement, col + 1)) {
+            moves.add(board.getSquare(row + movement, col + 1))
+        }
+        if (board.isValidPosition(row + movement, col - 1)) {
+            moves.add(board.getSquare(row + movement, col - 1))
+        }
+
+        return moves.toTypedArray()
+    }
 }
