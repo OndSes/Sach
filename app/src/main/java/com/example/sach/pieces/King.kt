@@ -5,12 +5,11 @@ import com.example.sach.board.Board
 import com.example.sach.board.Square
 import com.example.sach.pieces.sliding.Rook
 
-class King(board: Board, isWhite: Boolean, row: Int, col: Int, val leftRook: Rook, val rightRook: Rook) : Piece(board, isWhite, row, col)  {
+class King(board: Board, color: PieceColor, row: Int, col: Int, val leftRook: Rook, val rightRook: Rook) : Piece(board, color, row, col)  {
     override fun getResourceId(): Int {
-        return if (isWhite) {
-            R.drawable.white_king
-        } else {
-            R.drawable.black_king
+        return when (color) {
+            PieceColor.WHITE -> R.drawable.white_king
+            PieceColor.BLACK -> R.drawable.black_king
         }
     }
 
@@ -40,7 +39,7 @@ class King(board: Board, isWhite: Boolean, row: Int, col: Int, val leftRook: Roo
                 if (squareContainsAlliedPiece(squareToCheck)) {
                     continue
                 }
-                if (board.isSquareInCheck(squareToCheck, !isWhite, null)) {
+                if (board.isSquareInCheck(squareToCheck, color.oppostie, null)) {
                     continue
                 }
 
@@ -92,7 +91,7 @@ class King(board: Board, isWhite: Boolean, row: Int, col: Int, val leftRook: Roo
             if (i == -3) {
                 continue
             }
-            if (board.isSquareInCheck(squareToCheck, !isWhite, null)) {
+            if (board.isSquareInCheck(squareToCheck, color.oppostie, null)) {
                 return null
             }
         }
@@ -110,7 +109,7 @@ class King(board: Board, isWhite: Boolean, row: Int, col: Int, val leftRook: Roo
             if (squareContainsPiece(squareToCheck)) {
                 return null
             }
-            if (board.isSquareInCheck(squareToCheck, !isWhite, null)) {
+            if (board.isSquareInCheck(squareToCheck, color.oppostie, null)) {
                 return null
             }
         }

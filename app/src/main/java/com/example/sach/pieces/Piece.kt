@@ -3,7 +3,7 @@ package com.example.sach.pieces
 import com.example.sach.board.Board
 import com.example.sach.board.Square
 
-abstract class Piece(val board: Board, val isWhite: Boolean, var row: Int, var col: Int) {
+abstract class Piece(val board: Board, val color: PieceColor, var row: Int, var col: Int) {
     var hasMoved: Boolean = false
     abstract fun getResourceId(): Int
     abstract fun getPossibleMoves(): Array<Square>
@@ -25,7 +25,7 @@ abstract class Piece(val board: Board, val isWhite: Boolean, var row: Int, var c
             originalSquare.piece = null
 
             val kingInCheck =
-                board.isKingInCheck(isWhite, capturedPiece)
+                board.isKingInCheck(color, capturedPiece)
 
             // undo move
             originalSquare.piece = this
@@ -42,10 +42,10 @@ abstract class Piece(val board: Board, val isWhite: Boolean, var row: Int, var c
         return square.piece != null
     }
     fun squareContainsAlliedPiece(square: Square): Boolean {
-        return squareContainsPiece(square) && square.piece!!.isWhite == this.isWhite
+        return squareContainsPiece(square) && square.piece!!.color == this.color
     }
     fun squareContainsEnemyPiece(square: Square): Boolean {
-        return squareContainsPiece(square) && square.piece!!.isWhite != this.isWhite
+        return squareContainsPiece(square) && square.piece!!.color != this.color
     }
     open fun move(square: Square) {
         hasMoved = true

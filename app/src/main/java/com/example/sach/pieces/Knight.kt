@@ -4,12 +4,11 @@ import com.example.sach.R
 import com.example.sach.board.Board
 import com.example.sach.board.Square
 
-class Knight(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, isWhite, row, col)  {
+class Knight(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col)  {
     override fun getResourceId(): Int {
-        return if (isWhite) {
-            R.drawable.white_knight
-        } else {
-            R.drawable.black_knight
+        return when (color) {
+            PieceColor.WHITE -> R.drawable.white_knight
+            PieceColor.BLACK -> R.drawable.black_knight
         }
     }
 

@@ -8,18 +8,17 @@ import com.example.sach.pieces.sliding.Bishop
 import com.example.sach.pieces.sliding.Queen
 import com.example.sach.pieces.sliding.Rook
 
-class Pawn(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, isWhite, row, col)  {
+class Pawn(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col)  {
     override fun getResourceId(): Int {
-        return if (isWhite) {
-            R.drawable.white_pawn
-        } else {
-            R.drawable.black_pawn
+        return when (color) {
+            PieceColor.WHITE -> R.drawable.white_pawn
+            PieceColor.BLACK -> R.drawable.black_pawn
         }
     }
 
     override fun getPossibleMoves(): Array<Square> {
         val moves = mutableListOf<Square>()
-        val movement = if (isWhite) { -1 } else { 1 }
+        val movement = if (color == PieceColor.WHITE) { -1 } else { 1 }
 
         var squareToCheck: Square
 
@@ -53,7 +52,7 @@ class Pawn(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, is
 
     override fun getAttackMoves(): Array<Square> {
         val moves = mutableListOf<Square>()
-        val movement = if (isWhite) { -1 } else { 1 }
+        val movement = if (color == PieceColor.WHITE) { -1 } else { 1 }
 
         if (board.isValidPosition(row + movement, col + 1)) {
             moves.add(board.getSquare(row + movement, col + 1))
@@ -69,7 +68,7 @@ class Pawn(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, is
 
         super.move(square)
 
-        val promotionRow = if (isWhite) 0 else 7
+        val promotionRow = if (color == PieceColor.WHITE) 0 else 7
 
         if (square.row == promotionRow) {
             promote(square)
@@ -90,20 +89,24 @@ class Pawn(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, is
             .setItems(options) { _, which ->
 
                 val newPiece = when (which) {
-                    0 -> Queen(board, isWhite, square.row, square.col)
-                    1 -> Rook(board, isWhite, square.row, square.col)
-                    2 -> Bishop(board, isWhite, square.row, square.col)
-                    else -> Knight(board, isWhite, square.row, square.col)
+                    0 -> Queen(board, color, square.row, square.col)
+                    1 -> Rook(board, color, square.row, square.col)
+                    2 -> Bishop(board, color, square.row, square.col)
+                    else -> Knight(board, color, square.row, square.col)
                 }
 
                 square.piece = newPiece
 
-                if (isWhite) {
-                    board.whitePieces.remove(this)
-                    board.whitePieces.add(newPiece)
-                } else {
-                    board.blackPieces.remove(this)
-                    board.blackPieces.add(newPiece)
+                when (color) {
+                    PieceColor.WHITE -> {
+                        board.whitePieces.remove(this)
+                        board.whitePieces.add(newPiece)
+                    }
+
+                    PieceColor.BLACK -> {
+                        board.blackPieces.remove(this)
+                        board.blackPieces.add(newPiece)
+                    }
                 }
 
                 square.updateView()

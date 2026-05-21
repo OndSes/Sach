@@ -4,8 +4,9 @@ import com.example.sach.board.Board
 import com.example.sach.board.Square
 import com.example.sach.pieces.Direction
 import com.example.sach.pieces.Piece
+import com.example.sach.pieces.PieceColor
 
-abstract class SlidingPiece(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, isWhite, row, col) {
+abstract class SlidingPiece(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col) {
     abstract val directions: List<Direction>
 
     override fun getPossibleMoves(): Array<Square> {

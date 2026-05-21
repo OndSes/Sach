@@ -5,8 +5,9 @@ import com.example.sach.board.Board
 import com.example.sach.board.Square
 import com.example.sach.pieces.Direction
 import com.example.sach.pieces.Piece
+import com.example.sach.pieces.PieceColor
 
-class Bishop(board: Board, isWhite: Boolean, row: Int, col: Int) : SlidingPiece(board, isWhite, row, col) {
+class Bishop(board: Board, color: PieceColor, row: Int, col: Int) : SlidingPiece(board, color, row, col) {
     override val directions = listOf(
         Direction.UP_LEFT,
         Direction.UP_RIGHT,
@@ -15,10 +16,9 @@ class Bishop(board: Board, isWhite: Boolean, row: Int, col: Int) : SlidingPiece(
     )
 
     override fun getResourceId(): Int {
-        return if (isWhite) {
-            R.drawable.white_bishop
-        } else {
-            R.drawable.black_bishop
+        return when (color) {
+            PieceColor.WHITE -> R.drawable.white_bishop
+            PieceColor.BLACK -> R.drawable.black_bishop
         }
     }
 }

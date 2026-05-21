@@ -6,17 +6,18 @@ import android.widget.GridLayout
 import com.example.sach.board.Board
 import com.example.sach.board.Square
 import com.example.sach.board.StateOfGame
+import com.example.sach.pieces.PieceColor
 
 class Game(boardView: GridLayout, context: Context) {
     val board: Board = Board(boardView, context, this)
     var selectedSquare: Square? = null
-    var whitesTurn: Boolean = true
+    var turnColor: PieceColor = PieceColor.WHITE
 
     init {
         activateSquares()
     }
     fun selectSquare(square: Square) {
-        if(square.piece != null && square.piece!!.isWhite == whitesTurn) {
+        if(square.piece != null && square.piece!!.color == turnColor) {
             selectPiece(square)
         } else {
             movePiece(square)
@@ -44,13 +45,12 @@ class Game(boardView: GridLayout, context: Context) {
     }
 
     private fun nextRound() {
-        whitesTurn = !whitesTurn
-        val state: StateOfGame = board.checkForMate(whitesTurn)
+        turnColor = turnColor.oppostie
+        val state: StateOfGame = board.checkForMate(turnColor)
         if (state == StateOfGame.CHECK_MATE) {
-            if (whitesTurn) {
-                showGameOverMessage("Checkmate! Black Wins")
-            } else {
-                showGameOverMessage("Checkmate! White Wins")
+            when (turnColor) {
+                PieceColor.WHITE -> showGameOverMessage("Checkmate! Black Wins")
+                PieceColor.BLACK -> showGameOverMessage("Checkmate! White Wins")
             }
         } else if (state == StateOfGame.STALEMATE) {
             showGameOverMessage("Draw by stalemate")
@@ -60,7 +60,7 @@ class Game(boardView: GridLayout, context: Context) {
 
 
     private fun activateSquares() {
-        board.activateSquares(whitesTurn)
+        board.activateSquares(turnColor)
     }
 
     private fun activateSquares(squares: Array<Square>) {

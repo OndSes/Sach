@@ -4,8 +4,9 @@ import com.example.sach.R
 import com.example.sach.board.Board
 import com.example.sach.board.Square
 import com.example.sach.pieces.Direction
+import com.example.sach.pieces.PieceColor
 
-class Rook(board: Board, isWhite: Boolean, row: Int, col: Int) : SlidingPiece(board, isWhite, row, col)  {
+class Rook(board: Board, color: PieceColor, row: Int, col: Int) : SlidingPiece(board, color, row, col)  {
     override val directions = listOf(
         Direction.UP,
         Direction.DOWN,
@@ -14,10 +15,9 @@ class Rook(board: Board, isWhite: Boolean, row: Int, col: Int) : SlidingPiece(bo
     )
 
     override fun getResourceId(): Int {
-        return if (isWhite) {
-            R.drawable.white_rook
-        } else {
-            R.drawable.black_rook
+        return when (color) {
+            PieceColor.WHITE -> R.drawable.white_rook
+            PieceColor.BLACK -> R.drawable.black_rook
         }
     }
 }
