@@ -9,6 +9,35 @@ abstract class Piece(val board: Board, val isWhite: Boolean, var row: Int, var c
     abstract fun getPossibleMoves(): Array<Square>
     abstract fun getAttackMoves(): Array<Square>
 
+    fun getLegalMoves(): Array<Square> {
+
+        val legalMoves = mutableListOf<Square>()
+
+        for (target in getPossibleMoves()) {
+
+            val originalSquare =
+                board.getSquare(row, col)
+
+            val capturedPiece = target.piece
+
+            // simulate move
+            target.piece = this
+            originalSquare.piece = null
+
+            val kingInCheck =
+                board.isKingInCheck(isWhite, capturedPiece)
+
+            // undo move
+            originalSquare.piece = this
+            target.piece = capturedPiece
+
+            if (!kingInCheck) {
+                legalMoves.add(target)
+            }
+        }
+
+        return legalMoves.toTypedArray()
+    }
     fun squareContainsPiece(square: Square): Boolean {
         return square.piece != null
     }

@@ -4,8 +4,6 @@ import android.content.Context
 import android.widget.GridLayout
 import com.example.sach.board.Board
 import com.example.sach.board.Square
-import com.example.sach.pieces.Piece
-import com.example.sach.pieces.PieceGenerator
 
 class Game(boardView: GridLayout, context: Context) {
     val board: Board = Board(boardView, context, this)
@@ -26,15 +24,17 @@ class Game(boardView: GridLayout, context: Context) {
     private fun selectPiece(square: Square) {
         selectedSquare?.view?.alpha = 1.0f
         if (selectedSquare?.piece != null) {
-            deactivateSquares(selectedSquare!!.piece!!.getPossibleMoves())
+            deactivateSquares(selectedSquare!!.piece!!.getLegalMoves())
         }
         selectedSquare = square
         square.view.alpha = 0.5f
-        activateSquares(square.piece!!.getPossibleMoves())
+        activateSquares(square.piece!!.getLegalMoves())
     }
 
     private fun movePiece(square: Square) {
-        deactivateSquares(selectedSquare!!.piece!!.getPossibleMoves())
+        deactivateSquares(selectedSquare!!.piece!!.getLegalMoves())
+        selectedSquare!!.isActive = false
+        selectedSquare!!.hideMoveIndicator()
         selectedSquare!!.view.alpha = 1.0f
         selectedSquare!!.piece!!.move(square)
         selectedSquare = null

@@ -30,7 +30,7 @@ class King(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, is
                 if (squareContainsAlliedPiece(squareToCheck)) {
                     continue
                 }
-                if (board.isSquareInCheck(squareToCheck, !isWhite)) {
+                if (board.isSquareInCheck(squareToCheck, !isWhite, null)) {
                     continue
                 }
 

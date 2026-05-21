@@ -3,13 +3,14 @@ package com.example.sach.board
 import android.content.Context
 import android.widget.GridLayout
 import com.example.sach.Game
-import com.example.sach.pieces.King
 import com.example.sach.pieces.Piece
 import com.example.sach.pieces.PieceGenerator
 
 class Board(boardView: GridLayout, context: Context, game: Game) {
     val whitePieces: MutableList<Piece>
     val blackPieces: MutableList<Piece>
+    var whiteKing: Piece
+    val blackKing: Piece
 
     val squares: Array<Array<Square>> =
         Array(8) { row ->
@@ -25,7 +26,9 @@ class Board(boardView: GridLayout, context: Context, game: Game) {
             }
         }
         whitePieces = PieceGenerator.generateWhitePieces(this)
+        whiteKing = whitePieces[9]
         blackPieces = PieceGenerator.generateBlackPieces(this)
+        blackKing = blackPieces[9]
     }
 
     fun getSquare(row: Int, col: Int): Square {
@@ -50,10 +53,13 @@ class Board(boardView: GridLayout, context: Context, game: Game) {
         }
     }
 
-    fun isSquareInCheck(squareToCheck: Square, whiteCheck: Boolean): Boolean {
-        val pieces: MutableList<Piece> = if (whiteCheck) { whitePieces } else { blackPieces }
+    fun isSquareInCheck(squareToCheck: Square, whiteIsAttacking: Boolean, pieceToSkip: Piece?): Boolean {
+        val pieces: MutableList<Piece> = if (whiteIsAttacking) { whitePieces } else { blackPieces }
 
         for (piece in pieces) {
+            if (piece == pieceToSkip) {
+                continue
+            }
             for (square in piece.getAttackMoves()) {
                 if (squareToCheck == square) {
                     return true
@@ -62,5 +68,25 @@ class Board(boardView: GridLayout, context: Context, game: Game) {
         }
 
         return false
+    }
+
+    fun isKingInCheck(kingIsWhite: Boolean, pieceToSkip: Piece?) : Boolean{
+        val king: Piece = if (kingIsWhite) { whiteKing } else { blackKing }
+
+        return isSquareInCheck(squares[king.row][king.col], !kingIsWhite, pieceToSkip)
+    }
+
+    fun checkForMate(checkWhite: Boolean): Mate {
+        val pieces: MutableList<Piece> = if (checkWhite) { whitePieces } else { blackPieces }
+        for (piece in pieces) {
+            if (!piece.getLegalMoves().isEmpty()) {
+                return Mate.NOT_MATE
+            }
+        }
+
+        if (isKingInCheck(checkWhite, null)) {
+            return Mate.CHECK_MATE
+        }
+        return Mate.STALEMATE
     }
 }
