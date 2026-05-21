@@ -1,8 +1,12 @@
 package com.example.sach.pieces
 
+import android.app.AlertDialog
 import com.example.sach.R
 import com.example.sach.board.Board
 import com.example.sach.board.Square
+import com.example.sach.pieces.sliding.Bishop
+import com.example.sach.pieces.sliding.Queen
+import com.example.sach.pieces.sliding.Rook
 
 class Pawn(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, isWhite, row, col)  {
     override fun getResourceId(): Int {
@@ -59,5 +63,51 @@ class Pawn(board: Board, isWhite: Boolean, row: Int, col: Int) : Piece(board, is
         }
 
         return moves.toTypedArray()
+    }
+
+    override fun move(square: Square) {
+
+        super.move(square)
+
+        val promotionRow = if (isWhite) 0 else 7
+
+        if (square.row == promotionRow) {
+            promote(square)
+        }
+    }
+
+    private fun promote(square: Square) {
+
+        val options = arrayOf(
+            "Queen",
+            "Rook",
+            "Bishop",
+            "Knight"
+        )
+
+        AlertDialog.Builder(board.context)
+            .setTitle("Promote Pawn")
+            .setItems(options) { _, which ->
+
+                val newPiece = when (which) {
+                    0 -> Queen(board, isWhite, square.row, square.col)
+                    1 -> Rook(board, isWhite, square.row, square.col)
+                    2 -> Bishop(board, isWhite, square.row, square.col)
+                    else -> Knight(board, isWhite, square.row, square.col)
+                }
+
+                square.piece = newPiece
+
+                if (isWhite) {
+                    board.whitePieces.remove(this)
+                    board.whitePieces.add(newPiece)
+                } else {
+                    board.blackPieces.remove(this)
+                    board.blackPieces.add(newPiece)
+                }
+
+                square.updateView()
+            }
+            .show()
     }
 }

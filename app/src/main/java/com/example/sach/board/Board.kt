@@ -3,14 +3,15 @@ package com.example.sach.board
 import android.content.Context
 import android.widget.GridLayout
 import com.example.sach.Game
+import com.example.sach.pieces.King
 import com.example.sach.pieces.Piece
 import com.example.sach.pieces.PieceGenerator
 
-class Board(boardView: GridLayout, context: Context, game: Game) {
+class Board(boardView: GridLayout,val context: Context, game: Game) {
     val whitePieces: MutableList<Piece>
     val blackPieces: MutableList<Piece>
     var whiteKing: Piece
-    val blackKing: Piece
+    var blackKing: Piece
 
     val squares: Array<Array<Square>> =
         Array(8) { row ->
@@ -25,10 +26,18 @@ class Board(boardView: GridLayout, context: Context, game: Game) {
                 boardView.addView(squares[row][col].container)
             }
         }
+        var x = 0
         whitePieces = PieceGenerator.generateWhitePieces(this)
-        whiteKing = whitePieces[9]
+        for (piece in whitePieces) {
+            if (piece is King) {
+                break
+            }
+            x++
+        }
+        whiteKing = whitePieces[x]
+
         blackPieces = PieceGenerator.generateBlackPieces(this)
-        blackKing = blackPieces[9]
+        blackKing = blackPieces[x]
     }
 
     fun getSquare(row: Int, col: Int): Square {
@@ -76,17 +85,17 @@ class Board(boardView: GridLayout, context: Context, game: Game) {
         return isSquareInCheck(squares[king.row][king.col], !kingIsWhite, pieceToSkip)
     }
 
-    fun checkForMate(checkWhite: Boolean): Mate {
+    fun checkForMate(checkWhite: Boolean): StateOfGame {
         val pieces: MutableList<Piece> = if (checkWhite) { whitePieces } else { blackPieces }
         for (piece in pieces) {
             if (!piece.getLegalMoves().isEmpty()) {
-                return Mate.NOT_MATE
+                return StateOfGame.NOT_MATE
             }
         }
 
         if (isKingInCheck(checkWhite, null)) {
-            return Mate.CHECK_MATE
+            return StateOfGame.CHECK_MATE
         }
-        return Mate.STALEMATE
+        return StateOfGame.STALEMATE
     }
 }

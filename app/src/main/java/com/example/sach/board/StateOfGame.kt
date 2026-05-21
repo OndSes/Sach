@@ -1,6 +1,6 @@
 package com.example.sach.board
 
-enum class Mate {
+enum class StateOfGame {
     NOT_MATE,
     CHECK_MATE,
     STALEMATE

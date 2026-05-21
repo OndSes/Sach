@@ -78,4 +78,14 @@ class Square(val row: Int, val col: Int, context: Context, val game: Game) {
     fun hideMoveIndicator() {
         moveIndicator.visibility = View.GONE
     }
+
+    fun updateView() {
+
+        if (piece == null) {
+            view.setImageDrawable(null)
+            return
+        }
+
+        view.setImageResource(piece!!.getResourceId())
+    }
 }

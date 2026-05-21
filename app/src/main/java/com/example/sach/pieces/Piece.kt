@@ -47,7 +47,7 @@ abstract class Piece(val board: Board, val isWhite: Boolean, var row: Int, var c
     fun squareContainsEnemyPiece(square: Square): Boolean {
         return squareContainsPiece(square) && square.piece!!.isWhite != this.isWhite
     }
-    fun move(square: Square) {
+    open fun move(square: Square) {
         hasMoved = true
 
         if (square.piece != null) {
@@ -55,5 +55,8 @@ abstract class Piece(val board: Board, val isWhite: Boolean, var row: Int, var c
         }
         board.getSquare(row, col).piece = null
         square.piece = this
+
+        row = square.row
+        col = square.col
     }
 }
