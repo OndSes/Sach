@@ -1,21 +1,15 @@
-package com.example.sach.gameActivity
+package com.example.sach.gameActivity.games
 
 import android.app.AlertDialog
-import android.content.Context
-import android.widget.GridLayout
+import com.example.sach.gameActivity.Settings
 import com.example.sach.gameActivity.board.Board
 import com.example.sach.gameActivity.board.Square
-import com.example.sach.gameActivity.board.StateOfGame
 import com.example.sach.gameActivity.pieces.PieceColor
 
-class Game(boardView: GridLayout, context: Context) {
-    val board: Board = Board(boardView, context, this)
+abstract class Game(val settings: Settings) {
+    abstract val board: Board
     var selectedSquare: Square? = null
     var turnColor: PieceColor = PieceColor.WHITE
-
-    init {
-        activateSquares()
-    }
     fun selectSquare(square: Square) {
         if(square.piece != null && square.piece!!.color == turnColor) {
             selectPiece(square)
@@ -41,25 +35,19 @@ class Game(boardView: GridLayout, context: Context) {
         selectedSquare!!.view.alpha = 1.0f
         selectedSquare!!.piece!!.move(square)
         selectedSquare = null
-        nextRound()
+        nextMove()
     }
 
-    private fun nextRound() {
-        turnColor = turnColor.opposite
-        val state: StateOfGame = board.checkForMate(turnColor)
-        if (state == StateOfGame.CHECK_MATE) {
-            when (turnColor) {
-                PieceColor.WHITE -> showGameOverMessage("Checkmate! Black Wins")
-                PieceColor.BLACK -> showGameOverMessage("Checkmate! White Wins")
-            }
-        } else if (state == StateOfGame.STALEMATE) {
-            showGameOverMessage("Draw by stalemate")
-        }
+    open fun nextMove() {
         activateSquares()
+        if (settings.rotateBoard) {
+            board.rotate(turnColor)
+        } else if (settings.rotatePieces) {
+            board.rotatePieces()
+        }
     }
 
-
-    private fun activateSquares() {
+    protected fun activateSquares() {
         board.activateSquares(turnColor)
     }
 
@@ -77,7 +65,7 @@ class Game(boardView: GridLayout, context: Context) {
         }
     }
 
-    private fun showGameOverMessage(message: String) {
+    protected fun showGameOverMessage(message: String) {
 
         AlertDialog.Builder(board.context)
             .setTitle("Game Over")

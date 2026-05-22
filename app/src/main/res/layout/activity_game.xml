@@ -11,4 +11,12 @@
         android:columnCount="8"
         android:rowCount="8"/>
 
+    <GridLayout
+        android:id="@+id/checkersBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="8"
+        android:rowCount="8"/>
+
 </FrameLayout>

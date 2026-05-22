@@ -1,12 +1,12 @@
-package com.example.sach.gameActivity.pieces.sliding
+package com.example.sach.gameActivity.pieces.chess.sliding
 
-import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.ChessBoard
 import com.example.sach.gameActivity.board.Square
 import com.example.sach.gameActivity.pieces.Direction
-import com.example.sach.gameActivity.pieces.Piece
 import com.example.sach.gameActivity.pieces.PieceColor
+import com.example.sach.gameActivity.pieces.chess.ChessPiece
 
-abstract class SlidingPiece(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col) {
+abstract class SlidingPiece(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col) {
     abstract val directions: List<Direction>
 
     override fun getPossibleMoves(): Array<Square> {

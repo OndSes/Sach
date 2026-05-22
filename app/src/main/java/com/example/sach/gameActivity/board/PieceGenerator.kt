@@ -1,13 +1,18 @@
-package com.example.sach.gameActivity.pieces
+package com.example.sach.gameActivity.board
 
-import com.example.sach.gameActivity.board.Board
-import com.example.sach.gameActivity.pieces.sliding.Bishop
-import com.example.sach.gameActivity.pieces.sliding.Queen
-import com.example.sach.gameActivity.pieces.sliding.Rook
+import com.example.sach.gameActivity.pieces.Piece
+import com.example.sach.gameActivity.pieces.PieceColor
+import com.example.sach.gameActivity.pieces.checkers.Man
+import com.example.sach.gameActivity.pieces.chess.King
+import com.example.sach.gameActivity.pieces.chess.Knight
+import com.example.sach.gameActivity.pieces.chess.Pawn
+import com.example.sach.gameActivity.pieces.chess.sliding.Bishop
+import com.example.sach.gameActivity.pieces.chess.sliding.Queen
+import com.example.sach.gameActivity.pieces.chess.sliding.Rook
 
 class PieceGenerator {
     companion object {
-        fun generateWhitePieces(board: Board): MutableList<Piece> {
+        fun generateWhiteChessPieces(board: ChessBoard): MutableList<Piece> {
             val pieces = mutableListOf<Piece>()
 
             val whiteLeftRook = Rook(board, PieceColor.WHITE, 7, 0)
@@ -44,7 +49,8 @@ class PieceGenerator {
                     }
 
                     4 -> {
-                        val whiteKing = King(board, PieceColor.WHITE, 7, col, whiteLeftRook, whiteRightRook)
+                        val whiteKing =
+                            King(board, PieceColor.WHITE, 7, col, whiteLeftRook, whiteRightRook)
                         board.getSquare(7, col).piece = whiteKing
                         pieces.add(whiteKing)
                     }
@@ -53,7 +59,7 @@ class PieceGenerator {
             return pieces
         }
 
-        fun generateBlackPieces(board: Board): MutableList<Piece> {
+        fun generateBlackChessPieces(board: ChessBoard): MutableList<Piece> {
             val pieces = mutableListOf<Piece>()
 
             val blackLeftRook = Rook(board, PieceColor.BLACK, 0, 0)
@@ -90,13 +96,62 @@ class PieceGenerator {
                     }
 
                     4 -> {
-                        val blackKing = King(board, PieceColor.BLACK, 0, col, blackLeftRook, blackRightRook)
+                        val blackKing =
+                            King(board, PieceColor.BLACK, 0, col, blackLeftRook, blackRightRook)
                         board.getSquare(0, col).piece = blackKing
                         pieces.add(blackKing)
                     }
                 }
             }
 
+            return pieces
+        }
+
+        fun generateWhiteCheckersPieces(board: CheckersBoard): MutableList<Piece> {
+            val pieces = mutableListOf<Piece>()
+
+            for (col in 0..7) {
+                when (col) {
+                    0, 2, 4, 6 -> {
+                        var whiteMan = Man(board, PieceColor.WHITE, 5, col)
+                        board.getSquare(5, col).piece = whiteMan
+                        pieces.add(whiteMan)
+
+                        whiteMan = Man(board, PieceColor.WHITE, 7, col)
+                        board.getSquare(7, col).piece = whiteMan
+                        pieces.add(whiteMan)
+                    }
+                    else -> {
+                        val whiteMan = Man(board, PieceColor.WHITE, 6, col)
+                        board.getSquare(6, col).piece = whiteMan
+                        pieces.add(whiteMan)
+                    }
+                }
+            }
+            return pieces
+        }
+
+        fun generateBlackCheckersPieces(board: CheckersBoard): MutableList<Piece> {
+            val pieces = mutableListOf<Piece>()
+
+            for (col in 0..7) {
+                when (col) {
+                    1, 3, 5, 7 -> {
+                        var blackMan = Man(board, PieceColor.BLACK, 0, col)
+                        board.getSquare(0, col).piece = blackMan
+                        pieces.add(blackMan)
+
+                        blackMan = Man(board, PieceColor.BLACK, 2, col)
+                        board.getSquare(2, col).piece = blackMan
+                        pieces.add(blackMan)
+                    }
+                    else -> {
+                        val blackMan = Man(board, PieceColor.BLACK, 1, col)
+                        board.getSquare(1, col).piece = blackMan
+                        pieces.add(blackMan)
+                    }
+                }
+            }
             return pieces
         }
     }

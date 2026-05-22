@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.example.sach.gameActivity.Game
+import com.example.sach.gameActivity.games.Game
 import com.example.sach.R
 import com.example.sach.gameActivity.pieces.Piece
 
@@ -23,7 +23,8 @@ class Square(val row: Int, val col: Int, context: Context, val game: Game) {
             field = value
             if (value != null) {
                 view.setImageResource(value.getResourceId())
-                value.square = this
+                value.row = this.row
+                value.col = this.col
             } else {
                 view.setImageDrawable(null)
             }
@@ -79,12 +80,19 @@ class Square(val row: Int, val col: Int, context: Context, val game: Game) {
     }
 
     fun updateView() {
-
         if (piece == null) {
             view.setImageDrawable(null)
             return
         }
 
         view.setImageResource(piece!!.getResourceId())
+    }
+
+    fun rotateView() {
+        view.rotation =
+            if (view.rotation == 180f)
+                0f
+            else
+                180f
     }
 }

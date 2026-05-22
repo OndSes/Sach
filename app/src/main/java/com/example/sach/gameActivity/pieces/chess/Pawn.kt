@@ -1,14 +1,17 @@
-package com.example.sach.gameActivity.pieces
+package com.example.sach.gameActivity.pieces.chess
 
 import android.app.AlertDialog
 import com.example.sach.R
-import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.ChessBoard
 import com.example.sach.gameActivity.board.Square
-import com.example.sach.gameActivity.pieces.sliding.Bishop
-import com.example.sach.gameActivity.pieces.sliding.Queen
-import com.example.sach.gameActivity.pieces.sliding.Rook
+import com.example.sach.gameActivity.pieces.PieceColor
+import com.example.sach.gameActivity.pieces.chess.sliding.Bishop
+import com.example.sach.gameActivity.pieces.chess.sliding.Queen
+import com.example.sach.gameActivity.pieces.chess.sliding.Rook
 
-class Pawn(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col)  {
+class Pawn(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col)  {
+    val promotionRow = if (color == PieceColor.WHITE) 0 else 7
+
     override fun getResourceId(): Int {
         return when (color) {
             PieceColor.WHITE -> R.drawable.white_pawn
@@ -65,10 +68,7 @@ class Pawn(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, c
     }
 
     override fun move(targetSquare: Square) {
-
         super.move(targetSquare)
-
-        val promotionRow = if (color == PieceColor.WHITE) 0 else 7
 
         if (targetSquare.row == promotionRow) {
             promote(targetSquare)

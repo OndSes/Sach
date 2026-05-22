@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Sach</string>
+    <string name="rotate_board">Rotate Board</string>
+    <string name="play">Play</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="rotate_pieces">Rotate Pieces</string>
+    <string name="play_chess">Play Chess</string>
+    <string name="play_checkers">Play Checkers</string>
 </resources>

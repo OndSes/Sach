@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <Button
+        android:id="@+id/chessButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/play_chess" />
+
+    <Button
+        android:id="@+id/checkersButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/play_checkers" />
+
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/history" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/settings" />
+
+</LinearLayout>

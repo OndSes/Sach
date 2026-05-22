@@ -1,10 +1,11 @@
-package com.example.sach.gameActivity.pieces
+package com.example.sach.gameActivity.pieces.chess
 
 import com.example.sach.R
-import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.ChessBoard
 import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.pieces.PieceColor
 
-class Knight(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col)  {
+class Knight(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col)  {
     override fun getResourceId(): Int {
         return when (color) {
             PieceColor.WHITE -> R.drawable.white_knight
