@@ -1,4 +1,4 @@
-package com.example.sach.pieces
+package com.example.sach.gameActivity.pieces
 
 enum class PieceColor {
     WHITE,

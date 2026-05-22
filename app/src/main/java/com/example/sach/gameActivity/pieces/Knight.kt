@@ -1,8 +1,8 @@
-package com.example.sach.pieces
+package com.example.sach.gameActivity.pieces
 
 import com.example.sach.R
-import com.example.sach.board.Board
-import com.example.sach.board.Square
+import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.Square
 
 class Knight(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col)  {
     override fun getResourceId(): Int {

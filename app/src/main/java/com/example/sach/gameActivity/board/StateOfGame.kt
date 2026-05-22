@@ -1,4 +1,4 @@
-package com.example.sach.board
+package com.example.sach.gameActivity.board
 
 enum class StateOfGame {
     NOT_MATE,

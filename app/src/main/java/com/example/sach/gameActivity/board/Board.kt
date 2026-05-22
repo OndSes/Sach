@@ -1,12 +1,12 @@
-package com.example.sach.board
+package com.example.sach.gameActivity.board
 
 import android.content.Context
 import android.widget.GridLayout
-import com.example.sach.Game
-import com.example.sach.pieces.King
-import com.example.sach.pieces.Piece
-import com.example.sach.pieces.PieceColor
-import com.example.sach.pieces.PieceGenerator
+import com.example.sach.gameActivity.Game
+import com.example.sach.gameActivity.pieces.King
+import com.example.sach.gameActivity.pieces.Piece
+import com.example.sach.gameActivity.pieces.PieceColor
+import com.example.sach.gameActivity.pieces.PieceGenerator
 
 class Board(boardView: GridLayout,val context: Context, game: Game) {
     val whitePieces: MutableList<Piece>

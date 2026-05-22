@@ -1,4 +1,4 @@
-package com.example.sach.board
+package com.example.sach.gameActivity.board
 
 import android.content.Context
 import android.graphics.Color
@@ -8,9 +8,9 @@ import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.example.sach.Game
+import com.example.sach.gameActivity.Game
 import com.example.sach.R
-import com.example.sach.pieces.Piece
+import com.example.sach.gameActivity.pieces.Piece
 
 class Square(val row: Int, val col: Int, context: Context, val game: Game) {
     val container = FrameLayout(context)

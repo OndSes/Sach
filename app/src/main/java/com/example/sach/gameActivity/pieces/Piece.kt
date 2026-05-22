@@ -1,7 +1,7 @@
-package com.example.sach.pieces
+package com.example.sach.gameActivity.pieces
 
-import com.example.sach.board.Board
-import com.example.sach.board.Square
+import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.Square
 
 abstract class Piece(val board: Board, val color: PieceColor, row: Int, col: Int) {
     var hasMoved: Boolean = false

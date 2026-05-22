@@ -1,9 +1,9 @@
-package com.example.sach.pieces
+package com.example.sach.gameActivity.pieces
 
-import com.example.sach.board.Board
-import com.example.sach.pieces.sliding.Bishop
-import com.example.sach.pieces.sliding.Queen
-import com.example.sach.pieces.sliding.Rook
+import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.pieces.sliding.Bishop
+import com.example.sach.gameActivity.pieces.sliding.Queen
+import com.example.sach.gameActivity.pieces.sliding.Rook
 
 class PieceGenerator {
     companion object {

@@ -1,12 +1,12 @@
-package com.example.sach
+package com.example.sach.gameActivity
 
 import android.app.AlertDialog
 import android.content.Context
 import android.widget.GridLayout
-import com.example.sach.board.Board
-import com.example.sach.board.Square
-import com.example.sach.board.StateOfGame
-import com.example.sach.pieces.PieceColor
+import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.board.StateOfGame
+import com.example.sach.gameActivity.pieces.PieceColor
 
 class Game(boardView: GridLayout, context: Context) {
     val board: Board = Board(boardView, context, this)

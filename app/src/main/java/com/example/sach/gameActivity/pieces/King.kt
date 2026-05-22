@@ -1,9 +1,9 @@
-package com.example.sach.pieces
+package com.example.sach.gameActivity.pieces
 
 import com.example.sach.R
-import com.example.sach.board.Board
-import com.example.sach.board.Square
-import com.example.sach.pieces.sliding.Rook
+import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.pieces.sliding.Rook
 
 class King(board: Board, color: PieceColor, row: Int, col: Int, val leftRook: Rook, val rightRook: Rook) : Piece(board, color, row, col)  {
     override fun getResourceId(): Int {

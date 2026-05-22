@@ -1,10 +1,10 @@
-package com.example.sach.pieces.sliding
+package com.example.sach.gameActivity.pieces.sliding
 
-import com.example.sach.board.Board
-import com.example.sach.board.Square
-import com.example.sach.pieces.Direction
-import com.example.sach.pieces.Piece
-import com.example.sach.pieces.PieceColor
+import com.example.sach.gameActivity.board.Board
+import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.pieces.Direction
+import com.example.sach.gameActivity.pieces.Piece
+import com.example.sach.gameActivity.pieces.PieceColor
 
 abstract class SlidingPiece(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, color, row, col) {
     abstract val directions: List<Direction>

@@ -1,4 +1,4 @@
-package com.example.sach.pieces
+package com.example.sach.gameActivity.pieces
 
 enum class Direction(val rowDelta: Int, val colDelta: Int) {
     UP(-1, 0),
