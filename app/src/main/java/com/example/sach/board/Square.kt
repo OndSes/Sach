@@ -23,8 +23,7 @@ class Square(val row: Int, val col: Int, context: Context, val game: Game) {
             field = value
             if (value != null) {
                 view.setImageResource(value.getResourceId())
-                value.row = this.row
-                value.col = this.col
+                value.square = this
             } else {
                 view.setImageDrawable(null)
             }

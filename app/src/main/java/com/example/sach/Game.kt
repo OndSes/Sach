@@ -45,7 +45,7 @@ class Game(boardView: GridLayout, context: Context) {
     }
 
     private fun nextRound() {
-        turnColor = turnColor.oppostie
+        turnColor = turnColor.opposite
         val state: StateOfGame = board.checkForMate(turnColor)
         if (state == StateOfGame.CHECK_MATE) {
             when (turnColor) {

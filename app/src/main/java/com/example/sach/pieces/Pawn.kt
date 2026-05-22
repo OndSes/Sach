@@ -22,20 +22,20 @@ class Pawn(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, c
 
         var squareToCheck: Square
 
-        if (board.isValidPosition(row + movement, col + 1)) {
-            squareToCheck = board.getSquare(row + movement, col + 1)
+        if (board.isValidPosition(square.row + movement, square.col + 1)) {
+            squareToCheck = board.getSquare(square.row + movement, square.col + 1)
             if (squareContainsEnemyPiece(squareToCheck)) {
                 moves.add(squareToCheck)
             }
         }
-        if (board.isValidPosition(row + movement, col - 1)) {
-            squareToCheck = board.getSquare(row + movement, col - 1)
+        if (board.isValidPosition(square.row + movement, square.col - 1)) {
+            squareToCheck = board.getSquare(square.row + movement, square.col - 1)
             if (squareContainsEnemyPiece(squareToCheck)) {
                 moves.add(squareToCheck)
             }
         }
 
-        squareToCheck = board.getSquare(row + movement, col)
+        squareToCheck = board.getSquare(square.row + movement, square.col)
         if (squareContainsPiece(squareToCheck)) {
             return moves.toTypedArray()
         }
@@ -43,7 +43,7 @@ class Pawn(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, c
         if(hasMoved) {
             return moves.toTypedArray()
         }
-        squareToCheck = board.getSquare(row + 2 * movement, col)
+        squareToCheck = board.getSquare(square.row + 2 * movement, square.col)
         if (!squareContainsPiece(squareToCheck)) {
             moves.add(squareToCheck)
         }
@@ -54,24 +54,24 @@ class Pawn(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board, c
         val moves = mutableListOf<Square>()
         val movement = if (color == PieceColor.WHITE) { -1 } else { 1 }
 
-        if (board.isValidPosition(row + movement, col + 1)) {
-            moves.add(board.getSquare(row + movement, col + 1))
+        if (board.isValidPosition(square.row + movement, square.col + 1)) {
+            moves.add(board.getSquare(square.row + movement, square.col + 1))
         }
-        if (board.isValidPosition(row + movement, col - 1)) {
-            moves.add(board.getSquare(row + movement, col - 1))
+        if (board.isValidPosition(square.row + movement, square.col - 1)) {
+            moves.add(board.getSquare(square.row + movement, square.col - 1))
         }
 
         return moves.toTypedArray()
     }
 
-    override fun move(square: Square) {
+    override fun move(targetSquare: Square) {
 
-        super.move(square)
+        super.move(targetSquare)
 
         val promotionRow = if (color == PieceColor.WHITE) 0 else 7
 
-        if (square.row == promotionRow) {
-            promote(square)
+        if (targetSquare.row == promotionRow) {
+            promote(targetSquare)
         }
     }
 

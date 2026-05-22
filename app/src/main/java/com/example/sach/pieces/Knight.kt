@@ -21,10 +21,10 @@ class Knight(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board,
                 if (i*i == j*j) {
                     continue
                 }
-                if (!board.isValidPosition(row+i,col+j)) {
+                if (!board.isValidPosition(square.row + i,square.col + j)) {
                     continue
                 }
-                squareToCheck = board.getSquare(row+i,col+j)
+                squareToCheck = board.getSquare(square.row + i,square.col + j)
                 if (squareContainsAlliedPiece(squareToCheck)) {
                     continue
                 }
@@ -42,11 +42,11 @@ class Knight(board: Board, color: PieceColor, row: Int, col: Int) : Piece(board,
                 if (i*i == j*j) {
                     continue
                 }
-                if (!board.isValidPosition(row+i,col+j)) {
+                if (!board.isValidPosition(square.row + i,square.col + j)) {
                     continue
                 }
 
-                moves.add(board.getSquare(row+i,col+j))
+                moves.add(board.getSquare(square.row + i,square.col + j))
             }
         }
         return moves.toTypedArray()

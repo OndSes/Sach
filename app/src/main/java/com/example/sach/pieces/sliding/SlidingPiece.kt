@@ -12,10 +12,10 @@ abstract class SlidingPiece(board: Board, color: PieceColor, row: Int, col: Int)
     override fun getPossibleMoves(): Array<Square> {
         val moves = mutableListOf<Square>()
         var squareToCheck: Square
-        var x: Int = 1
+        var x = 1
         for(direction in directions) {
-            while (board.isValidPosition(row + x * direction.rowDelta, col + x * direction.colDelta)) {
-                squareToCheck = board.getSquare(row + x * direction.rowDelta, col + x * direction.colDelta)
+            while (board.isValidPosition(square.row + x * direction.rowDelta, square.col + x * direction.colDelta)) {
+                squareToCheck = board.getSquare(square.row + x * direction.rowDelta, square.col + x * direction.colDelta)
                 if (squareContainsAlliedPiece(squareToCheck)) {
                     break
                 }
@@ -34,10 +34,10 @@ abstract class SlidingPiece(board: Board, color: PieceColor, row: Int, col: Int)
     override fun getAttackMoves(): Array<Square> {
         val moves = mutableListOf<Square>()
         var squareToCheck: Square
-        var x: Int = 1
+        var x = 1
         for(direction in directions) {
-            while (board.isValidPosition(row + x * direction.rowDelta, col + x * direction.colDelta)) {
-                squareToCheck = board.getSquare(row + x * direction.rowDelta, col + x * direction.colDelta)
+            while (board.isValidPosition(square.row + x * direction.rowDelta, square.col + x * direction.colDelta)) {
+                squareToCheck = board.getSquare(square.row + x * direction.rowDelta, square.col + x * direction.colDelta)
                 if (squareContainsPiece(squareToCheck)) {
                     moves.add(squareToCheck)
                     break

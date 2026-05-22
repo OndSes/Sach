@@ -3,8 +3,9 @@ package com.example.sach.pieces
 import com.example.sach.board.Board
 import com.example.sach.board.Square
 
-abstract class Piece(val board: Board, val color: PieceColor, var row: Int, var col: Int) {
+abstract class Piece(val board: Board, val color: PieceColor, row: Int, col: Int) {
     var hasMoved: Boolean = false
+    var square: Square = board.getSquare(row, col)
     abstract fun getResourceId(): Int
     abstract fun getPossibleMoves(): Array<Square>
     abstract fun getAttackMoves(): Array<Square>
@@ -15,8 +16,7 @@ abstract class Piece(val board: Board, val color: PieceColor, var row: Int, var 
 
         for (target in getPossibleMoves()) {
 
-            val originalSquare =
-                board.getSquare(row, col)
+            val originalSquare = square
 
             val capturedPiece = target.piece
 
@@ -47,16 +47,13 @@ abstract class Piece(val board: Board, val color: PieceColor, var row: Int, var 
     fun squareContainsEnemyPiece(square: Square): Boolean {
         return squareContainsPiece(square) && square.piece!!.color != this.color
     }
-    open fun move(square: Square) {
+    open fun move(targetSquare: Square) {
         hasMoved = true
 
-        if (square.piece != null) {
-            board.capture(square.piece!!)
+        if (targetSquare.piece != null) {
+            board.capture(targetSquare.piece!!)
         }
-        board.getSquare(row, col).piece = null
-        square.piece = this
-
-        row = square.row
-        col = square.col
+        square.piece = null
+        targetSquare.piece = this
     }
 }

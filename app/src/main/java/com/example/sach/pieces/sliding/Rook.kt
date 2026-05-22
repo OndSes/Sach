@@ -2,7 +2,6 @@ package com.example.sach.pieces.sliding
 
 import com.example.sach.R
 import com.example.sach.board.Board
-import com.example.sach.board.Square
 import com.example.sach.pieces.Direction
 import com.example.sach.pieces.PieceColor
 

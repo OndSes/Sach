@@ -4,7 +4,7 @@ enum class PieceColor {
     WHITE,
     BLACK;
 
-    val oppostie
+    val opposite
         get() = when (this) {
             WHITE -> BLACK
             BLACK -> WHITE

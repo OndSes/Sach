@@ -31,15 +31,15 @@ class King(board: Board, color: PieceColor, row: Int, col: Int, val leftRook: Ro
                 if (i == 0 && j == 0) {
                     continue
                 }
-                if (!board.isValidPosition(row + i, col + j)) {
+                if (!board.isValidPosition(square.row + i, square.col + j)) {
                     continue
                 }
 
-                squareToCheck = board.getSquare(row + i, col + j)
+                squareToCheck = board.getSquare(square.row + i, square.col + j)
                 if (squareContainsAlliedPiece(squareToCheck)) {
                     continue
                 }
-                if (board.isSquareInCheck(squareToCheck, color.oppostie, null)) {
+                if (board.isSquareInCheck(squareToCheck, color.opposite, null)) {
                     continue
                 }
 
@@ -58,24 +58,24 @@ class King(board: Board, color: PieceColor, row: Int, col: Int, val leftRook: Ro
                 if (i == 0 && j == 0) {
                     continue
                 }
-                if (!board.isValidPosition(row + i, col + j)) {
+                if (!board.isValidPosition(square.row + i, square.col + j)) {
                     continue
                 }
-                moves.add(board.getSquare(row + i, col + j))
+                moves.add(board.getSquare(square.row + i, square.col + j))
             }
         }
 
         return moves.toTypedArray()
     }
 
-    override fun move(square: Square) {
-        if (square.col == col - 2) {
-            leftRook.move(board.getSquare(row, col - 1))
-        } else if (square.col == col + 2) {
-            rightRook.move(board.getSquare(row, col + 1))
+    override fun move(targetSquare: Square) {
+        if (targetSquare.col == square.col - 2) {
+            leftRook.move(board.getSquare(square.row, square.col - 1))
+        } else if (targetSquare.col == square.col + 2) {
+            rightRook.move(board.getSquare(square.row, square.col + 1))
         }
 
-        super.move(square)
+        super.move(targetSquare)
     }
 
     private fun checkLeftCastle(): Square? {
@@ -84,18 +84,18 @@ class King(board: Board, color: PieceColor, row: Int, col: Int, val leftRook: Ro
         }
         var squareToCheck: Square
         for (i in -3..-1) {
-            squareToCheck = board.getSquare(row, col + i)
+            squareToCheck = board.getSquare(square.row, square.col + i)
             if (squareContainsPiece(squareToCheck)) {
                 return null
             }
             if (i == -3) {
                 continue
             }
-            if (board.isSquareInCheck(squareToCheck, color.oppostie, null)) {
+            if (board.isSquareInCheck(squareToCheck, color.opposite, null)) {
                 return null
             }
         }
-        return board.getSquare(row, col - 2)
+        return board.getSquare(square.row, square.col - 2)
     }
 
 
@@ -105,15 +105,15 @@ class King(board: Board, color: PieceColor, row: Int, col: Int, val leftRook: Ro
         }
         var squareToCheck: Square
         for (i in 1..2) {
-            squareToCheck = board.getSquare(row, col + i)
+            squareToCheck = board.getSquare(square.row, square.col + i)
             if (squareContainsPiece(squareToCheck)) {
                 return null
             }
-            if (board.isSquareInCheck(squareToCheck, color.oppostie, null)) {
+            if (board.isSquareInCheck(squareToCheck, color.opposite, null)) {
                 return null
             }
         }
-        return board.getSquare(row, col + 2)
+        return board.getSquare(square.row, square.col + 2)
     }
 
 }

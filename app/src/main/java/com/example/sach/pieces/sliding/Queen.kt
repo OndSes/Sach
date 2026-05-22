@@ -2,9 +2,7 @@ package com.example.sach.pieces.sliding
 
 import com.example.sach.R
 import com.example.sach.board.Board
-import com.example.sach.board.Square
 import com.example.sach.pieces.Direction
-import com.example.sach.pieces.Piece
 import com.example.sach.pieces.PieceColor
 
 class Queen(board: Board, color: PieceColor, row: Int, col: Int) : SlidingPiece(board, color, row, col)  {

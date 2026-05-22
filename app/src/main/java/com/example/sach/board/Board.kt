@@ -1,6 +1,5 @@
 package com.example.sach.board
 
-import android.R
 import android.content.Context
 import android.widget.GridLayout
 import com.example.sach.Game
@@ -52,7 +51,7 @@ class Board(boardView: GridLayout,val context: Context, game: Game) {
 
     fun activateSquares(color: PieceColor) {
         for (piece in whitePieces + blackPieces) {
-            squares[piece.row][piece.col].isActive = piece.color == color
+            piece.square.isActive = piece.color == color
         }
     }
 
@@ -84,7 +83,7 @@ class Board(boardView: GridLayout,val context: Context, game: Game) {
     fun isKingInCheck(kingColor: PieceColor, pieceToSkip: Piece?) : Boolean{
         val king: Piece = if (kingColor == PieceColor.WHITE) { whiteKing } else { blackKing }
 
-        return isSquareInCheck(squares[king.row][king.col], kingColor.oppostie, pieceToSkip)
+        return isSquareInCheck(king.square, kingColor.opposite, pieceToSkip)
     }
 
     fun checkForMate(color: PieceColor): StateOfGame {
