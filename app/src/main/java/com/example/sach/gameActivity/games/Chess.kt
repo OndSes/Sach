@@ -16,7 +16,7 @@ class Chess(boardView: GridLayout, context: Context, settings: Settings): Game(s
 
     override fun nextMove() {
         turnColor = turnColor.opposite
-        val state: StateOfGame = board.checkForMate(turnColor)
+        val state: StateOfGame = board.checkState(turnColor)
         if (state == StateOfGame.CHECK_MATE) {
             when (turnColor) {
                 PieceColor.WHITE -> showGameOverMessage("Checkmate! Black Wins")
@@ -27,6 +27,4 @@ class Chess(boardView: GridLayout, context: Context, settings: Settings): Game(s
         }
         super.nextMove()
     }
-
-
 }

@@ -4,7 +4,7 @@ import com.example.sach.gameActivity.board.Board
 import com.example.sach.gameActivity.board.Square
 
 abstract class Piece(open val board: Board, val color: PieceColor,var row: Int,var col: Int) {
-    var hasMoved: Boolean = false
+
     val square: Square
         get() = board.getSquare(row, col)
     abstract fun getResourceId(): Int
@@ -19,13 +19,5 @@ abstract class Piece(open val board: Board, val color: PieceColor,var row: Int,v
     fun squareContainsEnemyPiece(square: Square): Boolean {
         return squareContainsPiece(square) && square.piece!!.color != this.color
     }
-    open fun move(targetSquare: Square) {
-        hasMoved = true
-
-        if (targetSquare.piece != null) {
-            board.capture(targetSquare.piece!!)
-        }
-        square.piece = null
-        targetSquare.piece = this
-    }
+    abstract fun move(targetSquare: Square)
 }

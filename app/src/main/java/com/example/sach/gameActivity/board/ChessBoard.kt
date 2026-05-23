@@ -58,7 +58,7 @@ class ChessBoard(boardView: GridLayout, context: Context, game: Game): Board(boa
         return isSquareInCheck(king.square, kingColor.opposite, pieceToSkip)
     }
 
-    fun checkForMate(color: PieceColor): StateOfGame {
+    override fun checkState(color: PieceColor): StateOfGame {
         val pieces: MutableList<Piece> = if (color == PieceColor.WHITE) { whitePieces } else { blackPieces }
         for (piece in pieces) {
             if (!piece.getLegalMoves().isEmpty()) {

@@ -41,7 +41,7 @@ class GameActivity : AppCompatActivity() {
             }
 
             "checkers" -> {
-                Checkers(findViewById(R.id.checkersBoard), this, Settings(rotateBoard, rotatePieces))
+                Checkers(findViewById(R.id.chessBoard), this, Settings(rotateBoard, rotatePieces))
             }
         }
     }

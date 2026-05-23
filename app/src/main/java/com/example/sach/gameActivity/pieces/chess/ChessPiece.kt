@@ -7,6 +7,7 @@ import com.example.sach.gameActivity.pieces.PieceColor
 import kotlin.Int
 
 abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row: Int, col: Int): Piece(board, color, row, col) {
+    var hasMoved: Boolean = false
     abstract fun getPossibleMoves(): Array<Square>
     abstract fun getAttackMoves(): Array<Square>
 
@@ -36,5 +37,15 @@ abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row
         }
 
         return legalMoves.toTypedArray()
+    }
+
+    override fun move(targetSquare: Square) {
+        hasMoved = true
+
+        if (targetSquare.piece != null) {
+            board.capture(targetSquare.piece!!)
+        }
+        square.piece = null
+        targetSquare.piece = this
     }
 }

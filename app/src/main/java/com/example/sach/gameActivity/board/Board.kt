@@ -18,6 +18,7 @@ abstract class Board(val boardView: GridLayout,val context: Context, game: Game)
             }
         }
 
+    abstract fun checkState(color: PieceColor): StateOfGame
 
     fun getSquare(row: Int, col: Int): Square {
         return squares[row][col]
