@@ -46,10 +46,11 @@ class GameFragment : Fragment(R.layout.activity_game) {
             settings
         )
 
-        BoardRenderer(
+        val renderer =BoardRenderer(
             view.findViewById(R.id.chessBoard),
             requireContext(),
             viewModel.game!!
         )
+        renderer.onSaveGameRequested = { viewModel.saveGame() }
     }
 }

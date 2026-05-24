@@ -38,6 +38,8 @@ abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row
     }
 
     override fun move(targetSquare: BoardSquare) {
+        super.move(targetSquare)
+
         hasMoved = true
 
         if (targetSquare.piece != null) {

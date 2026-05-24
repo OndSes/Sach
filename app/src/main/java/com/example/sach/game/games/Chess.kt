@@ -32,13 +32,8 @@ class Chess(settings: Settings): Game(settings) {
     override fun nextMove() {
         turnColor = turnColor.opposite
         val state: StateOfGame = board.checkState(turnColor)
-        if (state == StateOfGame.CHECK_MATE) {
-            when (turnColor) {
-                PieceColor.WHITE -> onGameMessageRequested?.invoke("Checkmate! Black Wins")
-                PieceColor.BLACK -> onGameMessageRequested?.invoke("Checkmate! White Wins")
-            }
-        } else if (state == StateOfGame.STALEMATE) {
-            onGameMessageRequested?.invoke("Draw by stalemate")
+        if (state != StateOfGame.NOT_MATE) {
+            onGameOver?.invoke(turnColor.opposite, state)
         }
         super.nextMove()
     }

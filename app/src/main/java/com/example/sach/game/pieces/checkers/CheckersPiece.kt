@@ -12,6 +12,8 @@ abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColo
     abstract val directions: List<Direction>
 
     override fun move(targetSquare: BoardSquare) {
+        super.move(targetSquare)
+
         board.lastMovedPiece = this
 
         if (board.isCaptureAvailable) {

@@ -19,5 +19,19 @@ abstract class Piece(open val board: Board, val color: PieceColor,var row: Int,v
     fun squareContainsEnemyPiece(square: BoardSquare): Boolean {
         return squareContainsPiece(square) && square.piece!!.color != this.color
     }
-    abstract fun move(targetSquare: BoardSquare)
+    open fun move(targetSquare: BoardSquare) {
+        recordMove(row, col, targetSquare.row, targetSquare.col)
+    }
+
+    protected fun recordMove(
+        fromRow: Int,
+        fromCol: Int,
+        toRow: Int,
+        toCol: Int
+    ) {
+
+        board.game.recordMove(
+            "$fromRow,$fromCol->$toRow,$toCol"
+        )
+    }
 }

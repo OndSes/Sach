@@ -5,6 +5,7 @@ import android.content.Context
 import android.widget.GridLayout
 import com.example.sach.game.board.BoardSquare
 import com.example.sach.game.board.ChessBoard
+import com.example.sach.game.board.StateOfGame
 import com.example.sach.game.games.Chess
 import com.example.sach.game.games.Game
 import com.example.sach.game.pieces.PieceColor
@@ -22,6 +23,7 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
             }
         }
     var selectedSquare: SquareView? = null
+    var onSaveGameRequested: (() -> Unit)? = null
 
     init {
         boardView.removeAllViews()
@@ -43,7 +45,16 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
             showLegalMoves(moves)
         }
         game.onPromotionRequested = { pawn -> requestPromotion(pawn) }
-        game.onGameMessageRequested = { message -> showGameOverMessage(message) }
+        game.onGameOver = { color, state ->
+            val message: String = if (state == StateOfGame.CHECK_MATE) {
+                when (color) {
+                    PieceColor.WHITE -> "Checkmate! White Wins"
+                    PieceColor.BLACK -> "Checkmate! Black Wins"
+                }
+            }  else {
+                "Draw by Stalemate"
+            }
+            showGameOverMessage(message) }
 
         refreshBoard()
     }
@@ -133,6 +144,11 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
             .setTitle("Game Over")
             .setMessage(message)
             .setCancelable(false)
+
+            .setPositiveButton("Save Game") { _, _ ->
+                onSaveGameRequested?.invoke()
+            }
+
             .setNegativeButton("Close", null)
             .show()
     }

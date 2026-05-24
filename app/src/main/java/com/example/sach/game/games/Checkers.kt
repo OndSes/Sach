@@ -20,10 +20,7 @@ class Checkers(settings: Settings): Game(settings) {
         }
         val state: StateOfGame = board.checkState(turnColor)
         if (state == StateOfGame.CHECK_MATE) {
-            when (turnColor) {
-                PieceColor.WHITE -> onGameMessageRequested?.invoke("Black Wins")
-                PieceColor.BLACK -> onGameMessageRequested?.invoke("White Wins")
-            }
+            onGameOver?.invoke(turnColor.opposite, state)
         }
         super.nextMove()
     }
