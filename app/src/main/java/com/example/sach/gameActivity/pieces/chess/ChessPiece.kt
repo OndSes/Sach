@@ -1,18 +1,18 @@
 package com.example.sach.gameActivity.pieces.chess
 
+import com.example.sach.gameActivity.board.BoardSquare
 import com.example.sach.gameActivity.board.ChessBoard
-import com.example.sach.gameActivity.board.Square
 import com.example.sach.gameActivity.pieces.Piece
 import com.example.sach.gameActivity.pieces.PieceColor
 import kotlin.Int
 
 abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row: Int, col: Int): Piece(board, color, row, col) {
     var hasMoved: Boolean = false
-    abstract fun getPossibleMoves(): Array<Square>
-    abstract fun getAttackMoves(): Array<Square>
+    abstract fun getPossibleMoves(): List<BoardSquare>
+    abstract fun getAttackMoves(): List<BoardSquare>
 
-    override fun getLegalMoves(): Array<Square> {
-        val legalMoves = mutableListOf<Square>()
+    override fun getLegalMoves(): List<BoardSquare> {
+        val legalMoves = mutableListOf<BoardSquare>()
 
         for (target in getPossibleMoves()) {
 
@@ -20,14 +20,12 @@ abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row
 
             val capturedPiece = target.piece
 
-            // simulate move
             target.piece = this
             originalSquare.piece = null
 
             val kingInCheck =
                 board.isKingInCheck(color, capturedPiece)
 
-            // undo move
             originalSquare.piece = this
             target.piece = capturedPiece
 
@@ -36,10 +34,10 @@ abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row
             }
         }
 
-        return legalMoves.toTypedArray()
+        return legalMoves
     }
 
-    override fun move(targetSquare: Square) {
+    override fun move(targetSquare: BoardSquare) {
         hasMoved = true
 
         if (targetSquare.piece != null) {
@@ -47,5 +45,7 @@ abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row
         }
         square.piece = null
         targetSquare.piece = this
+        row = targetSquare.row
+        col = targetSquare.col
     }
 }

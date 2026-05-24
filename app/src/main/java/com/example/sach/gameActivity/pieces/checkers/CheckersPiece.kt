@@ -1,7 +1,7 @@
 package com.example.sach.gameActivity.pieces.checkers
 
 import com.example.sach.gameActivity.board.CheckersBoard
-import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.board.BoardSquare
 import com.example.sach.gameActivity.pieces.Direction
 import com.example.sach.gameActivity.pieces.Piece
 import com.example.sach.gameActivity.pieces.PieceColor
@@ -11,7 +11,7 @@ abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColo
     abstract val maxMovement: Int
     abstract val directions: List<Direction>
 
-    override fun move(targetSquare: Square) {
+    override fun move(targetSquare: BoardSquare) {
         board.lastMovedPiece = this
 
         if (board.isCaptureAvailable) {
@@ -32,17 +32,19 @@ abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColo
 
         square.piece = null
         targetSquare.piece = this
+        row = targetSquare.row
+        col = targetSquare.col
     }
 
-    override fun getLegalMoves(): Array<Square> {
+    override fun getLegalMoves(): List<BoardSquare> {
         if (board.isCaptureAvailable) {
             return getCaptures()
         }
 
-        val moves = mutableListOf<Square>()
+        val moves = mutableListOf<BoardSquare>()
         var newRow: Int
         var newCol: Int
-        var squareToCheck: Square
+        var squareToCheck: BoardSquare
 
         for (direction in directions) {
             for (i in 1..maxMovement) {
@@ -59,14 +61,14 @@ abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColo
             }
         }
 
-        return moves.toTypedArray()
+        return moves
     }
-    fun getCaptures(): Array<Square> {
-        val captures = mutableListOf<Square>()
+    fun getCaptures(): List<BoardSquare> {
+        val captures = mutableListOf<BoardSquare>()
 
         var newRow: Int
         var newCol: Int
-        var squareToCheck: Square
+        var squareToCheck: BoardSquare
 
         for (direction in directions) {
             for (i in 1..maxMovement) {
@@ -92,6 +94,6 @@ abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColo
             }
         }
 
-        return captures.toTypedArray()
+        return captures
     }
 }

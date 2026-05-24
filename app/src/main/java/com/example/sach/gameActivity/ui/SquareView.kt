@@ -1,4 +1,4 @@
-package com.example.sach.gameActivity.board
+package com.example.sach.gameActivity.ui
 
 import android.content.Context
 import android.graphics.Color
@@ -8,30 +8,18 @@ import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.example.sach.gameActivity.games.Game
 import com.example.sach.R
-import com.example.sach.gameActivity.pieces.Piece
 
-class Square(val row: Int, val col: Int, context: Context, val game: Game) {
+class SquareView(val row: Int, val col: Int, context: Context) {
     val container = FrameLayout(context)
     val moveIndicator = View(context)
-    val view: ImageView = ImageView(context)
+    val pieceView: ImageView = ImageView(context)
     var isActive = false
-
-    var piece: Piece? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                view.setImageResource(value.getResourceId())
-                value.row = this.row
-                value.col = this.col
-            } else {
-                view.setImageDrawable(null)
-            }
-        }
+    var onTap: (() -> Unit)? = null
+    val metrics = context.resources.displayMetrics
 
     init {
-        val size = context.resources.displayMetrics.widthPixels / 8
+        val size = minOf(metrics.widthPixels, metrics.heightPixels) / 8
 
         val params = GridLayout.LayoutParams()
         params.width = size
@@ -48,26 +36,25 @@ class Square(val row: Int, val col: Int, context: Context, val game: Game) {
         moveIndicator.layoutParams = indicatorParams
         moveIndicator.visibility = View.GONE
 
-        view.setBackgroundColor(
+        pieceView.setBackgroundColor(
             if ((row + col) % 2 == 1) Color.DKGRAY else Color.LTGRAY
         )
 
-        view.scaleType = ImageView.ScaleType.FIT_CENTER
-        view.setPadding(8, 8, 8, 8)
+        pieceView.scaleType = ImageView.ScaleType.FIT_CENTER
+        pieceView.setPadding(8, 8, 8, 8)
 
-        view.layoutParams = FrameLayout.LayoutParams(
+        pieceView.layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
 
-        view.setOnClickListener {
-            if (!isActive) {
-                return@setOnClickListener
+        pieceView.setOnClickListener {
+            if (isActive) {
+                onTap?.invoke()
             }
-            game.selectSquare(this)
         }
 
-        container.addView(view)
+        container.addView(pieceView)
         container.addView(moveIndicator)
     }
 
@@ -79,18 +66,20 @@ class Square(val row: Int, val col: Int, context: Context, val game: Game) {
         moveIndicator.visibility = View.GONE
     }
 
-    fun updateView() {
-        if (piece == null) {
-            view.setImageDrawable(null)
-            return
-        }
+    fun setPieceImage(
+        resourceId: Int?
+    ) {
 
-        view.setImageResource(piece!!.getResourceId())
+        if (resourceId == null) {
+            pieceView.setImageDrawable(null)
+        } else {
+            pieceView.setImageResource(resourceId)
+        }
     }
 
     fun rotateView() {
-        view.rotation =
-            if (view.rotation == 180f)
+        pieceView.rotation =
+            if (pieceView.rotation == 180f)
                 0f
             else
                 180f

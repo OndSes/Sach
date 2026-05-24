@@ -2,20 +2,16 @@ package com.example.sach.gameActivity.pieces.chess
 
 import com.example.sach.R
 import com.example.sach.gameActivity.board.ChessBoard
-import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.board.BoardSquare
 import com.example.sach.gameActivity.pieces.PieceColor
+import com.example.sach.gameActivity.pieces.PieceType
 
 class Knight(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col)  {
-    override fun getResourceId(): Int {
-        return when (color) {
-            PieceColor.WHITE -> R.drawable.white_knight
-            PieceColor.BLACK -> R.drawable.black_knight
-        }
-    }
+    override val type = PieceType.KNIGHT
 
-    override fun getPossibleMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
-        var squareToCheck: Square
+    override fun getPossibleMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
+        var squareToCheck: BoardSquare
 
         for (i in listOf(-2,-1,1,2)) {
             for (j in listOf(-2,-1,1,2)) {
@@ -32,11 +28,11 @@ class Knight(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPi
                 moves.add(squareToCheck)
             }
         }
-        return moves.toTypedArray()
+        return moves
     }
 
-    override fun getAttackMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
+    override fun getAttackMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
 
         for (i in listOf(-2,-1,1,2)) {
             for (j in listOf(-2,-1,1,2)) {
@@ -50,6 +46,6 @@ class Knight(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPi
                 moves.add(board.getSquare(square.row + i,square.col + j))
             }
         }
-        return moves.toTypedArray()
+        return moves
     }
 }

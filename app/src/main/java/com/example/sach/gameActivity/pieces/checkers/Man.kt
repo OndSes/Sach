@@ -2,15 +2,14 @@ package com.example.sach.gameActivity.pieces.checkers
 
 import com.example.sach.R
 import com.example.sach.gameActivity.board.CheckersBoard
-import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.board.BoardSquare
 import com.example.sach.gameActivity.pieces.Direction
+import com.example.sach.gameActivity.pieces.Piece
 import com.example.sach.gameActivity.pieces.PieceColor
-import com.example.sach.gameActivity.pieces.chess.Knight
-import com.example.sach.gameActivity.pieces.chess.sliding.Bishop
-import com.example.sach.gameActivity.pieces.chess.sliding.Queen
-import com.example.sach.gameActivity.pieces.chess.sliding.Rook
+import com.example.sach.gameActivity.pieces.PieceType
 
 class Man(board: CheckersBoard, color: PieceColor, row: Int, col: Int) : CheckersPiece(board, color, row, col) {
+    override val type = PieceType.MAN
     override val maxMovement = 1
     override val directions = when (color) {
         PieceColor.WHITE -> listOf(Direction.UP_LEFT, Direction.UP_RIGHT)
@@ -19,14 +18,7 @@ class Man(board: CheckersBoard, color: PieceColor, row: Int, col: Int) : Checker
 
     val promotionRow = if (color == PieceColor.WHITE) 0 else 7
 
-    override fun getResourceId(): Int {
-        return when (color) {
-            PieceColor.WHITE -> R.drawable.white_man
-            PieceColor.BLACK -> R.drawable.black_man
-        }
-    }
-
-    override fun move(targetSquare: Square) {
+    override fun move(targetSquare: BoardSquare) {
         super.move(targetSquare)
 
         if (targetSquare.row == promotionRow) {
@@ -34,7 +26,7 @@ class Man(board: CheckersBoard, color: PieceColor, row: Int, col: Int) : Checker
         }
     }
 
-    fun promote(square: Square) {
+    fun promote(square: BoardSquare) {
         val newPiece = CheckersKing(board, color, square.row, square.col)
 
         square.piece = newPiece
@@ -50,7 +42,5 @@ class Man(board: CheckersBoard, color: PieceColor, row: Int, col: Int) : Checker
                 board.blackPieces.add(newPiece)
             }
         }
-
-        square.updateView()
     }
 }

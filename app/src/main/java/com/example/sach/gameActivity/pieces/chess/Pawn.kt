@@ -3,27 +3,22 @@ package com.example.sach.gameActivity.pieces.chess
 import android.app.AlertDialog
 import com.example.sach.R
 import com.example.sach.gameActivity.board.ChessBoard
-import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.board.BoardSquare
 import com.example.sach.gameActivity.pieces.PieceColor
+import com.example.sach.gameActivity.pieces.PieceType
 import com.example.sach.gameActivity.pieces.chess.sliding.Bishop
 import com.example.sach.gameActivity.pieces.chess.sliding.Queen
 import com.example.sach.gameActivity.pieces.chess.sliding.Rook
 
 class Pawn(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col)  {
+    override val type = PieceType.PAWN
     val promotionRow = if (color == PieceColor.WHITE) 0 else 7
 
-    override fun getResourceId(): Int {
-        return when (color) {
-            PieceColor.WHITE -> R.drawable.white_pawn
-            PieceColor.BLACK -> R.drawable.black_pawn
-        }
-    }
-
-    override fun getPossibleMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
+    override fun getPossibleMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
         val movement = if (color == PieceColor.WHITE) { -1 } else { 1 }
 
-        var squareToCheck: Square
+        var squareToCheck: BoardSquare
 
         if (board.isValidPosition(square.row + movement, square.col + 1)) {
             squareToCheck = board.getSquare(square.row + movement, square.col + 1)
@@ -40,21 +35,21 @@ class Pawn(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiec
 
         squareToCheck = board.getSquare(square.row + movement, square.col)
         if (squareContainsPiece(squareToCheck)) {
-            return moves.toTypedArray()
+            return moves
         }
         moves.add(squareToCheck)
         if(hasMoved) {
-            return moves.toTypedArray()
+            return moves
         }
         squareToCheck = board.getSquare(square.row + 2 * movement, square.col)
         if (!squareContainsPiece(squareToCheck)) {
             moves.add(squareToCheck)
         }
-        return moves.toTypedArray()
+        return moves
     }
 
-    override fun getAttackMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
+    override fun getAttackMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
         val movement = if (color == PieceColor.WHITE) { -1 } else { 1 }
 
         if (board.isValidPosition(square.row + movement, square.col + 1)) {
@@ -64,53 +59,14 @@ class Pawn(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiec
             moves.add(board.getSquare(square.row + movement, square.col - 1))
         }
 
-        return moves.toTypedArray()
+        return moves
     }
 
-    override fun move(targetSquare: Square) {
+    override fun move(targetSquare: BoardSquare) {
         super.move(targetSquare)
 
         if (targetSquare.row == promotionRow) {
-            promote(targetSquare)
+            board.game.onPromotionRequested?.invoke(this)
         }
-    }
-
-    private fun promote(square: Square) {
-
-        val options = arrayOf(
-            "Queen",
-            "Rook",
-            "Bishop",
-            "Knight"
-        )
-
-        AlertDialog.Builder(board.context)
-            .setTitle("Promote Pawn")
-            .setItems(options) { _, which ->
-
-                val newPiece = when (which) {
-                    0 -> Queen(board, color, square.row, square.col)
-                    1 -> Rook(board, color, square.row, square.col)
-                    2 -> Bishop(board, color, square.row, square.col)
-                    else -> Knight(board, color, square.row, square.col)
-                }
-
-                square.piece = newPiece
-
-                when (color) {
-                    PieceColor.WHITE -> {
-                        board.whitePieces.remove(this)
-                        board.whitePieces.add(newPiece)
-                    }
-
-                    PieceColor.BLACK -> {
-                        board.blackPieces.remove(this)
-                        board.blackPieces.add(newPiece)
-                    }
-                }
-
-                square.updateView()
-            }
-            .show()
     }
 }

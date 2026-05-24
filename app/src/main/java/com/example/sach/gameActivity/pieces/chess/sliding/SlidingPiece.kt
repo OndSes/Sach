@@ -1,7 +1,7 @@
 package com.example.sach.gameActivity.pieces.chess.sliding
 
 import com.example.sach.gameActivity.board.ChessBoard
-import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.board.BoardSquare
 import com.example.sach.gameActivity.pieces.Direction
 import com.example.sach.gameActivity.pieces.PieceColor
 import com.example.sach.gameActivity.pieces.chess.ChessPiece
@@ -9,9 +9,9 @@ import com.example.sach.gameActivity.pieces.chess.ChessPiece
 abstract class SlidingPiece(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col) {
     abstract val directions: List<Direction>
 
-    override fun getPossibleMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
-        var squareToCheck: Square
+    override fun getPossibleMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
+        var squareToCheck: BoardSquare
         var x = 1
         for(direction in directions) {
             while (board.isValidPosition(square.row + x * direction.rowDelta, square.col + x * direction.colDelta)) {
@@ -28,12 +28,12 @@ abstract class SlidingPiece(board: ChessBoard, color: PieceColor, row: Int, col:
             }
             x = 1
         }
-        return moves.toTypedArray()
+        return moves
     }
 
-    override fun getAttackMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
-        var squareToCheck: Square
+    override fun getAttackMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
+        var squareToCheck: BoardSquare
         var x = 1
         for(direction in directions) {
             while (board.isValidPosition(square.row + x * direction.rowDelta, square.col + x * direction.colDelta)) {
@@ -47,6 +47,6 @@ abstract class SlidingPiece(board: ChessBoard, color: PieceColor, row: Int, col:
             }
             x = 1
         }
-        return moves.toTypedArray()
+        return moves
     }
 }

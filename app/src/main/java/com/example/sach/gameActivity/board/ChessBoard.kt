@@ -1,27 +1,20 @@
 package com.example.sach.gameActivity.board
 
-import android.content.Context
-import android.widget.GridLayout
 import com.example.sach.gameActivity.games.Game
 import com.example.sach.gameActivity.pieces.Piece
 import com.example.sach.gameActivity.pieces.PieceColor
 import com.example.sach.gameActivity.pieces.chess.ChessPiece
 import com.example.sach.gameActivity.pieces.chess.King
 
-class ChessBoard(boardView: GridLayout, context: Context, game: Game): Board(boardView, context, game) {
-    override val whitePieces: MutableList<Piece>
-    override val blackPieces: MutableList<Piece>
+class ChessBoard(game: Game): Board(game) {
+    override val whitePieces = PieceGenerator.generateWhiteChessPieces(this)
+
+    override val blackPieces = PieceGenerator.generateBlackChessPieces(this)
     var whiteKing: Piece
     var blackKing: Piece
 
     init {
-        for (row in 0..7) {
-            for (col in 0..7) {
-                boardView.addView(squares[row][col].container)
-            }
-        }
         var x = 0
-        whitePieces = PieceGenerator.generateWhiteChessPieces(this)
         for (piece in whitePieces) {
             if (piece is King) {
                 break
@@ -29,12 +22,9 @@ class ChessBoard(boardView: GridLayout, context: Context, game: Game): Board(boa
             x++
         }
         whiteKing = whitePieces[x]
-
-        blackPieces = PieceGenerator.generateBlackChessPieces(this)
         blackKing = blackPieces[x]
     }
-
-    fun isSquareInCheck(squareToCheck: Square, attackingColor: PieceColor, pieceToSkip: Piece?): Boolean {
+    fun isSquareInCheck(squareToCheck: BoardSquare, attackingColor: PieceColor, pieceToSkip: Piece?): Boolean {
         val pieces: MutableList<Piece> = if (attackingColor == PieceColor.WHITE) { whitePieces } else { blackPieces }
 
         for (p in pieces) {

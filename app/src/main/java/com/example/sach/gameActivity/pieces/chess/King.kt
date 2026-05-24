@@ -2,21 +2,17 @@ package com.example.sach.gameActivity.pieces.chess
 
 import com.example.sach.R
 import com.example.sach.gameActivity.board.ChessBoard
-import com.example.sach.gameActivity.board.Square
+import com.example.sach.gameActivity.board.BoardSquare
 import com.example.sach.gameActivity.pieces.PieceColor
+import com.example.sach.gameActivity.pieces.PieceType
 import com.example.sach.gameActivity.pieces.chess.sliding.Rook
 
 class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRook: Rook, val rightRook: Rook) : ChessPiece(board, color, row, col)  {
-    override fun getResourceId(): Int {
-        return when (color) {
-            PieceColor.WHITE -> R.drawable.white_king
-            PieceColor.BLACK -> R.drawable.black_king
-        }
-    }
+    override val type = PieceType.KING
 
-    override fun getPossibleMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
-        var squareToCheck: Square
+    override fun getPossibleMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
+        var squareToCheck: BoardSquare
 
         var castleSquare = checkLeftCastle()
         if (castleSquare != null) {
@@ -48,11 +44,11 @@ class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRoo
             }
         }
 
-        return moves.toTypedArray()
+        return moves
     }
 
-    override fun getAttackMoves(): Array<Square> {
-        val moves = mutableListOf<Square>()
+    override fun getAttackMoves(): List<BoardSquare> {
+        val moves = mutableListOf<BoardSquare>()
 
         for (i in -1..1) {
             for (j in -1..1) {
@@ -66,10 +62,10 @@ class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRoo
             }
         }
 
-        return moves.toTypedArray()
+        return moves
     }
 
-    override fun move(targetSquare: Square) {
+    override fun move(targetSquare: BoardSquare) {
         if (targetSquare.col == square.col - 2) {
             leftRook.move(board.getSquare(square.row, square.col - 1))
         } else if (targetSquare.col == square.col + 2) {
@@ -79,11 +75,11 @@ class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRoo
         super.move(targetSquare)
     }
 
-    private fun checkLeftCastle(): Square? {
+    private fun checkLeftCastle(): BoardSquare? {
         if (hasMoved || leftRook.hasMoved) {
             return null
         }
-        var squareToCheck: Square
+        var squareToCheck: BoardSquare
         for (i in -3..-1) {
             squareToCheck = board.getSquare(square.row, square.col + i)
             if (squareContainsPiece(squareToCheck)) {
@@ -100,11 +96,11 @@ class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRoo
     }
 
 
-    private fun checkRightCastle(): Square? {
+    private fun checkRightCastle(): BoardSquare? {
         if (hasMoved || rightRook.hasMoved) {
             return null
         }
-        var squareToCheck: Square
+        var squareToCheck: BoardSquare
         for (i in 1..2) {
             squareToCheck = board.getSquare(square.row, square.col + i)
             if (squareContainsPiece(squareToCheck)) {
