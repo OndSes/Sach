@@ -1,4 +1,4 @@
-package com.example.sach.history
+package com.example.sach.history.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

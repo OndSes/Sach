@@ -1,4 +1,6 @@
-package com.example.sach.history
+package com.example.sach.history.database
+
+import com.example.sach.history.database.MoveEntity
 
 class GameRepository(private val gameDao: GameDao) {
 
@@ -16,5 +18,10 @@ class GameRepository(private val gameDao: GameDao) {
 
     suspend fun getMovesForGame(gameId: String): List<MoveEntity> {
         return gameDao.getMovesForGame(gameId)
+    }
+
+    suspend fun deleteGame(gameId: String) {
+        gameDao.deleteMoves(gameId)
+        gameDao.deleteGame(gameId)
     }
 }

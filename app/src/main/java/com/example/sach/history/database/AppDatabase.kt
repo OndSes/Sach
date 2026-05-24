@@ -1,9 +1,12 @@
-package com.example.sach.history
+package com.example.sach.history.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.sach.history.database.GameDao
+import com.example.sach.history.database.GameEntity
+import com.example.sach.history.database.MoveEntity
 
 @Database(
     entities = [

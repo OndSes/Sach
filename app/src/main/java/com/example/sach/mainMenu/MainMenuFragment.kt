@@ -7,7 +7,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-class MainMenuFragment : Fragment(R.layout.activity_main_menu) {
+class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
 
     override fun onViewCreated(
         view: View,
@@ -50,11 +50,10 @@ class MainMenuFragment : Fragment(R.layout.activity_main_menu) {
         }
 
         historyButton.setOnClickListener {
-/*
             findNavController().navigate(
                 R.id.historyFragment
             )
-*/        }
+        }
 
         settingsButton.setOnClickListener {
 

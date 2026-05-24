@@ -19,4 +19,8 @@
         android:name="com.example.sach.settings.SettingsFragment"
         android:label="Settings" />
 
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.sach.history.HistoryFragment"
+        android:label="History" />
 </navigation>

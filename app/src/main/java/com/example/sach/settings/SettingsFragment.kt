@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SwitchCompat
 import com.example.sach.R
 
-class SettingsFragment : Fragment(R.layout.activity_settings) {
+class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(
         view: View,

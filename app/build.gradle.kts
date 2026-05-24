@@ -47,6 +47,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
     implementation("androidx.room:room-runtime:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     ksp("androidx.room:room-compiler:2.7.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

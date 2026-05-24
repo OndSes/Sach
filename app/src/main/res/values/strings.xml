@@ -7,4 +7,5 @@
     <string name="rotate_pieces">Rotate Pieces</string>
     <string name="play_chess">Play Chess</string>
     <string name="play_checkers">Play Checkers</string>
+    <string name="delete">Delete</string>
 </resources>

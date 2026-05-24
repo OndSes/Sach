@@ -99,15 +99,19 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
     }
 
     fun activateSquares(color: PieceColor) {
-        for (row in 0..7) {
-            for (col in 0..7) {
-                squares[row][col].isActive = false
-            }
-        }
+        deactivateSquares()
         val pieces = if (color == PieceColor.WHITE) {game.board.whitePieces} else {game.board.blackPieces}
 
         for (piece in pieces) {
             squares[piece.row][piece.col].isActive = true
+        }
+    }
+
+    fun deactivateSquares() {
+        for (row in 0..7) {
+            for (col in 0..7) {
+                squares[row][col].isActive = false
+            }
         }
     }
 

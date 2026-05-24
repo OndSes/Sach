@@ -9,7 +9,7 @@ import com.example.sach.R
 import com.example.sach.game.ui.BoardRenderer
 import com.example.sach.game.viewModel.GameViewModel
 
-class GameFragment : Fragment(R.layout.activity_game) {
+class GameFragment : Fragment(R.layout.fragment_game) {
 
     override fun onViewCreated(
         view: View,

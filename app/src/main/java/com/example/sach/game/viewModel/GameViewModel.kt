@@ -8,10 +8,10 @@ import com.example.sach.game.Settings
 import com.example.sach.game.games.Checkers
 import com.example.sach.game.games.Chess
 import com.example.sach.game.games.Game
-import com.example.sach.history.AppDatabase
-import com.example.sach.history.GameEntity
-import com.example.sach.history.GameRepository
-import com.example.sach.history.MoveEntity
+import com.example.sach.history.database.AppDatabase
+import com.example.sach.history.database.GameEntity
+import com.example.sach.history.database.GameRepository
+import com.example.sach.history.database.MoveEntity
 import kotlinx.coroutines.launch
 
 class GameViewModel(application: Application) : AndroidViewModel(application) {
@@ -59,5 +59,14 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             repository.insertGame(gameEntity)
             repository.insertMoves(moveEntities)
         }
+    }
+
+    fun deleteGame(gameId: String) {
+        viewModelScope.launch {
+            repository.deleteGame(gameId)
+        }
+    }
+    suspend fun getGames(): List<GameEntity> {
+        return repository.getAllGames()
     }
 }
