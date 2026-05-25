@@ -5,6 +5,9 @@ import com.example.sach.game.pieces.Piece
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 
+/**
+ * získa obrázok pre danú figúrku
+ */
 fun getPieceDrawable(piece: Piece?): Int? {
     if (piece == null) {
         return null

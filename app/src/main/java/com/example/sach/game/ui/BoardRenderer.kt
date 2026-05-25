@@ -45,35 +45,6 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
             blackTimer!!.visibility = View.GONE
         }
 
-        game.onBoardChanged = { refreshBoard() }
-        game.onPieceSelected = { moves ->
-            resetViews()
-            highlightSquare(selectedSquare!!)
-            showLegalMoves(moves)
-        }
-        game.onPromotionRequested = { pawn -> requestPromotion(pawn) }
-        game.onGameOver = { color, state ->
-            val message: String = when (state) {
-                StateOfGame.CHECKMATE -> {
-                    when (color) {
-                        PieceColor.WHITE -> "Checkmate! White Wins"
-                        PieceColor.BLACK -> "Checkmate! Black Wins"
-                    }
-                }
-                StateOfGame.TIMEOUT -> {
-                    when (color) {
-                        PieceColor.WHITE -> "White Wins On Timeout"
-                        PieceColor.BLACK -> "Black Wins On Timeout"
-                    }
-                }
-                else -> "Draw by Stalemate"
-            }
-            showGameOverMessage(message) }
-
-        game.onTimerChanged = { whiteTime, blackTime ->
-                blackTimer!!.text = formatTime(blackTime)
-                whiteTimer!!.text = formatTime(whiteTime)
-            }
         refreshBoard()
     }
 
@@ -90,6 +61,7 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
             rotate(game.turnColor)
         } else if (game.settings.rotatePieces) {
             rotatePieces(game.turnColor)
+            rotateTimers(game.turnColor)
         }
 
         resetViews()
@@ -97,7 +69,7 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         activateSquares(game.turnColor)
     }
 
-    private fun resetViews() {
+    fun resetViews() {
         for (row in 0..7) {
             for (col in 0..7) {
                 val square = squares[row][col]
@@ -112,8 +84,8 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         square.pieceView.alpha = 1.0f
     }
 
-    fun highlightSquare(square: SquareView) {
-        square.pieceView.alpha = 0.5f
+    fun highlightSquare() {
+        selectedSquare!!.pieceView.alpha = 0.5f
     }
 
     fun activateSquares(color: PieceColor) {
@@ -161,7 +133,32 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         }
     }
 
-    fun showGameOverMessage(message: String) {
+    private fun rotateTimers(turnColor: PieceColor) {
+        if (!timers) {
+            return
+        }
+        val rotation = if (turnColor == PieceColor.WHITE) 0f else 180f
+        whiteTimer!!.rotation = rotation
+        blackTimer!!.rotation = rotation
+    }
+
+    fun showGameOverMessage(color: PieceColor, state: StateOfGame) {
+        val message: String = when (state) {
+            StateOfGame.CHECKMATE -> {
+                when (color) {
+                    PieceColor.WHITE -> "Checkmate! White Wins"
+                    PieceColor.BLACK -> "Checkmate! Black Wins"
+                }
+            }
+            StateOfGame.TIMEOUT -> {
+                when (color) {
+                    PieceColor.WHITE -> "White Wins On Timeout"
+                    PieceColor.BLACK -> "Black Wins On Timeout"
+                }
+            }
+            else -> "Draw by Stalemate"
+        }
+
 
         AlertDialog.Builder(context)
             .setTitle("Game Over")
@@ -235,5 +232,10 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         val seconds = totalSeconds % 60
 
         return String.format("%02d:%02d", minutes, seconds)
+    }
+
+    fun updateTimers(whiteTime: Long, blackTime: Long) {
+        blackTimer!!.text = formatTime(blackTime)
+        whiteTimer!!.text = formatTime(whiteTime)
     }
 }

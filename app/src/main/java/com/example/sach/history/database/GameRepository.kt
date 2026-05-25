@@ -1,7 +1,5 @@
 package com.example.sach.history.database
 
-import com.example.sach.history.database.MoveEntity
-
 class GameRepository(private val gameDao: GameDao) {
 
     suspend fun insertGame(game: GameEntity) {

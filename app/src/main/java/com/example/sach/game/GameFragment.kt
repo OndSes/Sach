@@ -57,15 +57,27 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             gameType,
             settings
         )
-
+        val game = viewModel.game!!
         val renderer =BoardRenderer(
             view.findViewById(R.id.chessBoard),
             requireContext(),
-            viewModel.game!!,
+            game,
             view.findViewById(R.id.whiteTimer),
             view.findViewById(R.id.blackTimer)
         )
+
         renderer.onSaveGameRequested = { viewModel.saveGame() }
-        viewModel.game!!.startTimer()
+
+        game.onBoardChanged = { renderer.refreshBoard() }
+        game.onPieceSelected = { moves ->
+            renderer.resetViews()
+            renderer.highlightSquare()
+            renderer.showLegalMoves(moves)
+        }
+        game.onPromotionRequested = { pawn -> renderer.requestPromotion(pawn) }
+        game.onGameOver = { color, state -> renderer.showGameOverMessage(color, state) }
+        game.onTimerChanged = { whiteTime, blackTime -> renderer.updateTimers(whiteTime, blackTime) }
+
+        game.startTimer()
     }
 }
