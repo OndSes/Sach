@@ -4,11 +4,17 @@ import com.example.sach.game.Settings
 import com.example.sach.game.board.CheckersBoard
 import com.example.sach.game.board.StateOfGame
 
+/**
+ * trieda, ktorá kontroluje chod dámy
+ */
 class Checkers(settings: Settings): Game(settings) {
     init {
         board = CheckersBoard(this)
     }
 
+    /**
+     * vyhodnotí kto je další na ťahu a overí, či sa hra neskončila
+     */
     override fun nextMove() {
         val chBoard = board as CheckersBoard
         val wasCaptured = chBoard.isCaptureAvailable

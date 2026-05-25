@@ -3,12 +3,9 @@ package com.example.sach.history.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.sach.history.database.GameEntity
-import com.example.sach.history.database.MoveEntity
 
 @Dao
 interface GameDao {
-
     @Insert
     suspend fun insertGame(game: GameEntity)
 

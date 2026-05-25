@@ -2,6 +2,7 @@ package com.example.sach.game.ui
 
 import android.content.Context
 import android.graphics.Color
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -10,13 +11,17 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.example.sach.R
 
+/**
+ * vizuálna reprezentácia políčka, na ktoré je možné ťuknúť
+ * zobrazujú sa na ňom figúrky a indikátor ťahu
+ */
 class SquareView(val row: Int, val col: Int, context: Context) {
     val container = FrameLayout(context)
     val moveIndicator = View(context)
     val pieceView: ImageView = ImageView(context)
     var isActive = false
     var onTap: (() -> Unit)? = null
-    val metrics = context.resources.displayMetrics
+    val metrics: DisplayMetrics = context.resources.displayMetrics
 
     init {
         val size = minOf(metrics.widthPixels, metrics.heightPixels) / 8
@@ -66,10 +71,7 @@ class SquareView(val row: Int, val col: Int, context: Context) {
         moveIndicator.visibility = View.GONE
     }
 
-    fun setPieceImage(
-        resourceId: Int?
-    ) {
-
+    fun setPieceImage(resourceId: Int?) {
         if (resourceId == null) {
             pieceView.setImageDrawable(null)
         } else {

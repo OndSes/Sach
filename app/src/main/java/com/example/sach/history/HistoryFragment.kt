@@ -14,16 +14,13 @@ import com.example.sach.R
 import com.example.sach.game.viewModel.GameViewModel
 import kotlinx.coroutines.launch
 
+/**
+ * obrazovka ktorá zobrazí uložené hry
+ */
 class HistoryFragment : Fragment() {
-
     private val viewModel: GameViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(
             R.layout.fragment_history,
             container,
@@ -31,54 +28,32 @@ class HistoryFragment : Fragment() {
         )
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val recyclerView = view.findViewById<RecyclerView>(R.id.historyRecyclerView)
 
-        val recyclerView =
-            view.findViewById<RecyclerView>(
-                R.id.historyRecyclerView
-            )
-
-        recyclerView.layoutManager =
-            LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         lifecycleScope.launch {
 
             val games = viewModel.getGames()
             lateinit var adapter: HistoryAdapter
 
-            adapter =
-                HistoryAdapter(
-                    games.toMutableList(),
-                    { game, position ->
+            adapter = HistoryAdapter(games.toMutableList(),
+                { game, position ->
+                    lifecycleScope.launch {
+                        viewModel.deleteGame(game.gameId)
 
-                        lifecycleScope.launch {
-
-                            viewModel.deleteGame(game.gameId)
-
-                            adapter.removeAt(position)
-                        }
-                    },
-                    { game ->
-                        val bundle = Bundle()
-
-                        bundle.putString(
-                            "gameId",
-                            game.gameId
-                        )
-
-                        bundle.putString(
-                            "gameType",
-                            game.gameType)
-
-                        findNavController().navigate(
-                            R.id.replayFragment,
-                            bundle
-                        )
+                        adapter.removeAt(position)
                     }
-                )
+                },
+                { game ->
+                    val bundle = Bundle()
+                    bundle.putString("gameId", game.gameId)
+                    bundle.putString("gameType", game.gameType)
+
+                    findNavController().navigate(R.id.replayFragment, bundle)
+                }
+            )
 
             recyclerView.adapter = adapter
         }

@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.sach.history.database.GameDao
-import com.example.sach.history.database.GameEntity
-import com.example.sach.history.database.MoveEntity
 
 @Database(
     entities = [
@@ -16,24 +13,20 @@ import com.example.sach.history.database.MoveEntity
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
-
     abstract fun gameDao(): GameDao
 
     companion object {
-
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
         fun getDatabase(context: Context): AppDatabase {
-
             return INSTANCE ?: synchronized(this) {
 
-                val instance =
-                    Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java,
-                        "games_database"
-                    ).build()
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "games_database"
+                ).build()
 
                 INSTANCE = instance
 

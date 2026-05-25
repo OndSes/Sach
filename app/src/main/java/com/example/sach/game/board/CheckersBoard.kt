@@ -5,12 +5,18 @@ import com.example.sach.game.pieces.Piece
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.checkers.CheckersPiece
 
+/**
+ * trieda predstavujúca dosku na hranie dámy
+ */
 class CheckersBoard(game: Game): Board(game) {
     override val whitePieces: MutableList<Piece> = PieceGenerator.generateWhiteCheckersPieces(this)
     override val blackPieces: MutableList<Piece> = PieceGenerator.generateBlackCheckersPieces(this)
     var isCaptureAvailable: Boolean = false
     var lastMovedPiece: CheckersPiece? = null
 
+    /**
+     * vyhodnotí či je možné preskočiť súperovu figúrku
+     */
     fun isCaptureAvailable(color: PieceColor) {
         val pieces = if (color == PieceColor.WHITE) {whitePieces} else {blackPieces}
 

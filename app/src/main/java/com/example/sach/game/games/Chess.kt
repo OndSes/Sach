@@ -7,6 +7,9 @@ import com.example.sach.game.pieces.Piece
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.chess.Pawn
 
+/**
+ * trieda, ktorá kontroluje chod šachu
+ */
 class Chess(settings: Settings): Game(settings) {
 
 
@@ -14,6 +17,9 @@ class Chess(settings: Settings): Game(settings) {
         board = ChessBoard(this)
     }
 
+    /**
+     * zmení pešiaka na danú figúrku
+     */
     fun promotePawn(pawn: Pawn, promotedPiece: Piece) {
         val square = board.getSquare(pawn.row, pawn.col)
 
@@ -29,6 +35,9 @@ class Chess(settings: Settings): Game(settings) {
         pieces.add(promotedPiece)
     }
 
+    /**
+     * vyhodnotí kto je další na ťahu a overí, či sa hra neskončila
+     */
     override fun nextMove() {
         turnColor = turnColor.opposite
         val state: StateOfGame = board.checkState(turnColor)

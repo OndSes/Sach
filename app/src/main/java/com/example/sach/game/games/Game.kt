@@ -9,6 +9,10 @@ import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.chess.Pawn
 import java.util.UUID
 
+/**
+ * abstraktná trieda, ktorá kontroluje chod hry, časomieru a vyvoláva udalosti pri zmenách
+ * tiež uchováva zoznam ťahov na uloženie do databázy
+ */
 abstract class Game(val settings: Settings) {
     val gameId = UUID.randomUUID().toString()
     lateinit var board: Board

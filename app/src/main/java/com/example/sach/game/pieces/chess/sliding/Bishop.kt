@@ -5,6 +5,9 @@ import com.example.sach.game.pieces.Direction
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 
+/**
+ * strelec, ktorý sa pohybuje po diagonálach
+ */
 class Bishop(board: ChessBoard, color: PieceColor, row: Int, col: Int) : SlidingPiece(board, color, row, col) {
     override val type = PieceType.BISHOP
     override val directions = listOf(

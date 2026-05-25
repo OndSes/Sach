@@ -6,6 +6,9 @@ import com.example.sach.game.pieces.Direction
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 
+/**
+ * základná dámová figúrka ktorá sa pohybuje po diagonálach dopredu
+ */
 class Man(board: CheckersBoard, color: PieceColor, row: Int, col: Int) : CheckersPiece(board, color, row, col) {
     override val type = PieceType.MAN
     override val maxMovement = 1
@@ -24,6 +27,9 @@ class Man(board: CheckersBoard, color: PieceColor, row: Int, col: Int) : Checker
         }
     }
 
+    /**
+     * zmení túto figúrku na kráľa
+     */
     fun promote(square: BoardSquare) {
         val newPiece = CheckersKing(board, color, square.row, square.col)
 

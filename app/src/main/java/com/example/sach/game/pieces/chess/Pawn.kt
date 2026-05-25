@@ -5,6 +5,10 @@ import com.example.sach.game.board.BoardSquare
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 
+/**
+ * pešiak, ktorý sa pohybuje o jedno políčko dopredu, alebo o dve pri prvom ťahu
+ * keď sa dostane na koniec šachovnice, premení sa na inú figúrku
+ */
 class Pawn(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col)  {
     override val type = PieceType.PAWN
     val promotionRow = if (color == PieceColor.WHITE) 0 else 7

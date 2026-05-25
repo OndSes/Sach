@@ -20,6 +20,9 @@ import com.example.sach.history.database.MoveEntity
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
+/**
+ * obrazovka na prehrávanie uložených partií
+ */
 class ReplayFragment : Fragment() {
     lateinit var game: Game
     var currentMoveIndex = 0
@@ -27,23 +30,13 @@ class ReplayFragment : Fragment() {
     lateinit var gameId: String
     lateinit var moves: List<MoveEntity>
 
-    override fun onSaveInstanceState(
-        outState: Bundle
-    ) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(
-            "move_index",
-            currentMoveIndex
-        )
+        outState.putInt("move_index", currentMoveIndex)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(
             R.layout.fragment_replay,
             container,
@@ -55,29 +48,22 @@ class ReplayFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        currentMoveIndex = savedInstanceState?.getInt(
-            "move_index",
-            0
-        ) ?: 0
+        currentMoveIndex = savedInstanceState?.getInt("move_index", 0) ?: 0
 
         gameId = arguments?.getString("gameId")!!
         game = when(arguments?.getString("gameType")!!) {
             "chess" -> Chess(Settings(rotateBoard = false, rotatePieces = false, false, 0, 0))
             else -> Checkers(Settings(rotateBoard = false, rotatePieces = false, false, 0, 0))
         }
-        val boardView =
-            view.findViewById<GridLayout>(
-                R.id.replayBoard
-            )
+        val boardView = view.findViewById<GridLayout>(R.id.replayBoard)
 
-        val renderer =
-            BoardRenderer(
-                boardView,
-                requireContext(),
-                game,
-                null,
-                null
-            )
+        val renderer = BoardRenderer(
+            boardView,
+            requireContext(),
+            game,
+            null,
+            null
+        )
         renderer.deactivateSquares()
 
         lifecycleScope.launch {
@@ -92,13 +78,9 @@ class ReplayFragment : Fragment() {
             renderer.deactivateSquares()
         }
 
-        val nextMoveButton =
-            view.findViewById<Button>(
-                R.id.nextMoveButton
-            )
+        val nextMoveButton = view.findViewById<Button>(R.id.nextMoveButton)
 
         nextMoveButton.setOnClickListener {
-
             if (currentMoveIndex >= moves.size) {
                 return@setOnClickListener
             }
@@ -113,23 +95,21 @@ class ReplayFragment : Fragment() {
             currentMoveIndex++
         }
 
-        val previousMoveButton =
-            view.findViewById<Button>(
-                R.id.previousMoveButton
-            )
+        val previousMoveButton = view.findViewById<Button>(R.id.previousMoveButton)
 
         previousMoveButton.setOnClickListener {
-
             if (currentMoveIndex <= 0) {
                 return@setOnClickListener
             }
-
             currentMoveIndex--
 
             rebuildBoard(renderer)
         }
     }
 
+    /**
+     * vykoná ťah na šachovnici
+     */
     private fun applyMove(move: MoveEntity) {
         val parts = move.moveData.split("->")
 
@@ -155,6 +135,10 @@ class ReplayFragment : Fragment() {
             )
         fromSquare.piece!!.move(toSquare)
     }
+
+    /**
+     * vytvorí novú hru a vykoná všetky ťahy až po aktuálny index
+     */
     private fun rebuildBoard(renderer: BoardRenderer) {
         game = when(arguments?.getString("gameType")!!) {
             "chess" -> Chess(Settings(rotateBoard = false, rotatePieces = false, false, 0, 0))

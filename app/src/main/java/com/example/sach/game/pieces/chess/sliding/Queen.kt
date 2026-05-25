@@ -5,6 +5,9 @@ import com.example.sach.game.pieces.Direction
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 
+/**
+ * dáma, ktorá sa pohybuje horizontálne a diagonálne
+ */
 class Queen(board: ChessBoard, color: PieceColor, row: Int, col: Int) : SlidingPiece(board, color, row, col)  {
     override val type = PieceType.QUEEN
     override val directions = listOf(

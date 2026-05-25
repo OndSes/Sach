@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.sach.R
-import kotlin.concurrent.timer
 
+/**
+ * obrazovka na zmenu nastavení
+ */
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(

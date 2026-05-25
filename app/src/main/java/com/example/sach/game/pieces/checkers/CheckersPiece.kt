@@ -7,10 +7,16 @@ import com.example.sach.game.pieces.Piece
 import com.example.sach.game.pieces.PieceColor
 import kotlin.collections.mutableListOf
 
+/**
+ * dámová figúrka, ktorá sa pohybuje po diagonálach
+ */
 abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColor, row: Int, col: Int): Piece(board, color, row, col) {
     abstract val maxMovement: Int
     abstract val directions: List<Direction>
 
+    /**
+     * posunie figúrku na dané políčko a skontroluje či nebolo iné preskočené, v tom prípade ho vyhodí
+     */
     override fun move(targetSquare: BoardSquare) {
         super.move(targetSquare)
 
@@ -38,6 +44,9 @@ abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColo
         col = targetSquare.col
     }
 
+    /**
+     * vráti všetky legálne ťahy figúrky
+     */
     override fun getLegalMoves(): List<BoardSquare> {
         if (board.isCaptureAvailable) {
             return getCaptures()
@@ -65,6 +74,10 @@ abstract class CheckersPiece(override val board: CheckersBoard, color: PieceColo
 
         return moves
     }
+
+    /**
+     * vráti všetky ťahy figúrky, pri ktorých bude vyhodená iná figúrka
+     */
     fun getCaptures(): List<BoardSquare> {
         val captures = mutableListOf<BoardSquare>()
 

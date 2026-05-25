@@ -17,6 +17,9 @@ import com.example.sach.game.pieces.chess.sliding.Bishop
 import com.example.sach.game.pieces.chess.sliding.Queen
 import com.example.sach.game.pieces.chess.sliding.Rook
 
+/**
+ * trieda, ktorá vykresluje stav hracej dosky na obrazovku
+ */
 class BoardRenderer(val boardView: GridLayout, val context: Context, var game: Game,
                     val whiteTimer: TextView?, val blackTimer: TextView?) {
     val timers = whiteTimer != null && blackTimer != null
@@ -54,6 +57,9 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         game.selectSquare(boardSquare)
     }
 
+    /**
+     * obnoví zobrazenie dosky
+     */
     fun refreshBoard() {
         selectedSquare = null
 
@@ -69,6 +75,9 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         activateSquares(game.turnColor)
     }
 
+    /**
+     * schová indikátor ťahu a nastaví obrázok políčka na figúrku, ktorá sa na ňom nachádza
+     */
     fun resetViews() {
         for (row in 0..7) {
             for (col in 0..7) {
@@ -88,6 +97,9 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         selectedSquare!!.pieceView.alpha = 0.5f
     }
 
+    /**
+     * aktivuje políčka figúriek danej farby
+     */
     fun activateSquares(color: PieceColor) {
         deactivateSquares()
         val pieces = if (color == PieceColor.WHITE) {game.board.whitePieces} else {game.board.blackPieces}
@@ -97,6 +109,9 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         }
     }
 
+    /**
+     * deactivuje všetky políčka
+     */
     fun deactivateSquares() {
         for (row in 0..7) {
             for (col in 0..7) {
@@ -105,6 +120,9 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         }
     }
 
+    /**
+     * zobrazí na obrazovku legálne ťahy figúrky
+     */
     fun showLegalMoves(moves: List<BoardSquare>) {
         for (s in moves) {
             val square = squares[s.row][s.col]
@@ -142,6 +160,9 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
         blackTimer!!.rotation = rotation
     }
 
+    /**
+     * vypíše na obrazovku informáciu o konci hry a umožní hru uložiť
+     */
     fun showGameOverMessage(color: PieceColor, state: StateOfGame) {
         val message: String = when (state) {
             StateOfGame.CHECKMATE -> {
@@ -159,7 +180,6 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
             else -> "Draw by Stalemate"
         }
 
-
         AlertDialog.Builder(context)
             .setTitle("Game Over")
             .setMessage(message)
@@ -173,6 +193,9 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, var game: G
             .show()
     }
 
+    /**
+     * zobrazí na obrazovku možnosti premeny pešiaka
+     */
     fun requestPromotion(pawn: Pawn) {
         val options = arrayOf(
             "Queen",

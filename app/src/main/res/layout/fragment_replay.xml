@@ -15,6 +15,7 @@
         android:rowCount="8"/>
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -22,12 +23,14 @@
 
         <Button
             android:id="@+id/previousMoveButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous_move"/>
+            android:text="@string/previous_move" />
 
         <Button
             android:id="@+id/nextMoveButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/next_move"/>

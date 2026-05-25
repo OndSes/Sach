@@ -12,32 +12,23 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+/**
+ * trieda, ktorá z načítaných dát vytvorí itemy, ktoré sa zobrazia na obrazovku
+ */
 class HistoryAdapter(
     private val games: MutableList<GameEntity>,
     private val onDeleteClicked: (GameEntity, Int) -> Unit,
     private val onGameClicked: (GameEntity) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View)
-        : RecyclerView.ViewHolder(view) {
-
-        val gameTypeText: TextView =
-            view.findViewById(R.id.gameTypeText)
-
-        val dateText: TextView =
-            view.findViewById(R.id.dateText)
-
-        val deleteButton: Button =
-            view.findViewById(R.id.deleteButton)
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val gameTypeText: TextView = view.findViewById(R.id.gameTypeText)
+        val dateText: TextView = view.findViewById(R.id.dateText)
+        val deleteButton: Button = view.findViewById(R.id.deleteButton)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
-
-        val view =
-            LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
                 .inflate(
                     R.layout.item_game,
                     parent,
@@ -51,11 +42,7 @@ class HistoryAdapter(
         return games.size
     }
 
-    override fun onBindViewHolder(
-        holder: ViewHolder,
-        position: Int
-    ) {
-
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = games[position]
 
         holder.gameTypeText.text = game.gameType
@@ -65,8 +52,7 @@ class HistoryAdapter(
                 Locale.getDefault()
             )
 
-        holder.dateText.text =
-            formatter.format(Date(game.date))
+        holder.dateText.text = formatter.format(Date(game.date))
 
         holder.deleteButton.setOnClickListener {
             onDeleteClicked(game, position)

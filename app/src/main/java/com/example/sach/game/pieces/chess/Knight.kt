@@ -5,6 +5,9 @@ import com.example.sach.game.board.BoardSquare
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 
+/**
+ * jazdec, ktorý sa pohybuje do L-ka a môže preskakovať figúrky
+ */
 class Knight(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col)  {
     override val type = PieceType.KNIGHT
 

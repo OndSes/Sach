@@ -10,4 +10,8 @@
     <string name="delete">Delete</string>
     <string name="previous_move">Previous Move</string>
     <string name="next_move">Next Move</string>
+    <string name="enable_timer">Enable Timer</string>
+    <string name="white_time">White Time (minutes)</string>
+    <string name="black_time">Black Time (minutes)</string>
+    <string name="_10">10</string>
 </resources>

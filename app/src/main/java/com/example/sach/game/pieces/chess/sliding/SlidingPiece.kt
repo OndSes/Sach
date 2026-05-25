@@ -6,6 +6,10 @@ import com.example.sach.game.pieces.Direction
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.chess.ChessPiece
 
+/**
+ * typ figúrky, ktorá sa môže pohnúť v danom smere, až kým nenarazí na okraj šachovnice,
+ * alebo na inú figúrku
+ */
 abstract class SlidingPiece(board: ChessBoard, color: PieceColor, row: Int, col: Int) : ChessPiece(board, color, row, col) {
     abstract val directions: List<Direction>
 

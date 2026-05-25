@@ -6,9 +6,11 @@ import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.chess.ChessPiece
 import com.example.sach.game.pieces.chess.King
 
+/**
+ * trieda predstavujúca šachovnicu
+ */
 class ChessBoard(game: Game): Board(game) {
     override val whitePieces = PieceGenerator.generateWhiteChessPieces(this)
-
     override val blackPieces = PieceGenerator.generateBlackChessPieces(this)
     var whiteKing: Piece
     var blackKing: Piece
@@ -24,6 +26,10 @@ class ChessBoard(game: Game): Board(game) {
         whiteKing = whitePieces[x]
         blackKing = blackPieces[x]
     }
+
+    /**
+     * vyhodnotí či je dané políčko pod útokom od figúrok danej farby
+     */
     fun isSquareInCheck(squareToCheck: BoardSquare, attackingColor: PieceColor, pieceToSkip: Piece?): Boolean {
         val pieces: MutableList<Piece> = if (attackingColor == PieceColor.WHITE) { whitePieces } else { blackPieces }
 
@@ -42,6 +48,10 @@ class ChessBoard(game: Game): Board(game) {
         return false
     }
 
+    /**
+     * vyhodnotí či je daný kráľ v šachu
+     * @param pieceToSkip pri simulácii sa môže vyhodiť figúrka, tá sa pri kontrole preskoći
+     */
     fun isKingInCheck(kingColor: PieceColor, pieceToSkip: Piece?) : Boolean{
         val king: Piece = if (kingColor == PieceColor.WHITE) { whiteKing } else { blackKing }
 

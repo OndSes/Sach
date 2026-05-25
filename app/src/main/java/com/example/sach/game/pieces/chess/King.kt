@@ -6,6 +6,9 @@ import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 import com.example.sach.game.pieces.chess.sliding.Rook
 
+/**
+ * kráľ, ktorý sa pohybuje o jedno políčko vo všetkých smeroch
+ */
 class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRook: Rook, val rightRook: Rook) : ChessPiece(board, color, row, col)  {
     override val type = PieceType.KING
 
@@ -74,6 +77,9 @@ class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRoo
         super.move(targetSquare)
     }
 
+    /**
+     * skontroluje, či je možná lavá rošáda
+     */
     private fun checkLeftCastle(): BoardSquare? {
         if (hasMoved || leftRook.hasMoved) {
             return null
@@ -94,7 +100,9 @@ class King(board: ChessBoard, color: PieceColor, row: Int, col: Int, val leftRoo
         return board.getSquare(square.row, square.col - 2)
     }
 
-
+    /**
+     * skontroluje, či je možná pravá rošáda
+     */
     private fun checkRightCastle(): BoardSquare? {
         if (hasMoved || rightRook.hasMoved) {
             return null

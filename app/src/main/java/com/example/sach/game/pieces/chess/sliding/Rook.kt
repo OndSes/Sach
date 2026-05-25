@@ -5,6 +5,9 @@ import com.example.sach.game.pieces.Direction
 import com.example.sach.game.pieces.PieceColor
 import com.example.sach.game.pieces.PieceType
 
+/**
+ * veža, ktorá sa pohybuje horizontálne
+ */
 class Rook(board: ChessBoard, color: PieceColor, row: Int, col: Int) : SlidingPiece(board, color, row, col)  {
     override val type = PieceType.ROOK
     override val directions = listOf(

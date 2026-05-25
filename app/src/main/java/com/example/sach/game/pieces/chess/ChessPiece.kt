@@ -6,10 +6,27 @@ import com.example.sach.game.pieces.Piece
 import com.example.sach.game.pieces.PieceColor
 import kotlin.Int
 
+/**
+ * abstraktná figúrka šachovej figúrky, vyhodnocuje možnosti pohybu
+ */
 abstract class ChessPiece(override val board: ChessBoard, color: PieceColor, row: Int, col: Int): Piece(board, color, row, col) {
     var hasMoved: Boolean = false
+
+    /**
+     * vráti všetky možné ťahy figúrky
+     */
     abstract fun getPossibleMoves(): List<BoardSquare>
+
+    /**
+     * vráti všetky políčka, na ktoré figúrka útočí
+     */
     abstract fun getAttackMoves(): List<BoardSquare>
+
+    /**
+     * vráti všetky legálne ťahy figúrky
+     * na zistenie legálnych ťahov sa odsimulujú všetky možné ťahy a skontroluje sa
+     * či je po danom ťahu kráľ v šachu
+     */
 
     override fun getLegalMoves(): List<BoardSquare> {
         val legalMoves = mutableListOf<BoardSquare>()

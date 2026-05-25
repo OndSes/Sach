@@ -10,6 +10,9 @@ import com.example.sach.game.pieces.chess.sliding.Bishop
 import com.example.sach.game.pieces.chess.sliding.Queen
 import com.example.sach.game.pieces.chess.sliding.Rook
 
+/**
+ * trieda, ktorá vygeneruje figúrky pre danú hru
+ */
 class PieceGenerator {
     companion object {
         fun generateWhiteChessPieces(board: ChessBoard): MutableList<Piece> {
