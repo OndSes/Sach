@@ -77,11 +77,7 @@ class SquareView(val row: Int, val col: Int, context: Context) {
         }
     }
 
-    fun rotateView() {
-        pieceView.rotation =
-            if (pieceView.rotation == 180f)
-                0f
-            else
-                180f
+    fun rotateView(rotation: Float) {
+        pieceView.rotation = rotation
     }
 }

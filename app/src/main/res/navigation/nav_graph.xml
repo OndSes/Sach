@@ -23,4 +23,18 @@
         android:id="@+id/historyFragment"
         android:name="com.example.sach.history.HistoryFragment"
         android:label="History" />
+
+    <fragment
+        android:id="@+id/replayFragment"
+        android:name="com.example.sach.history.ReplayFragment"
+        android:label="ReplayFragment">
+
+        <argument
+            android:name="gameId"
+            app:argType="string" />
+
+        <argument
+            android:name="gameType"
+            app:argType="string" />
+    </fragment>
 </navigation>

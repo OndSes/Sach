@@ -29,7 +29,7 @@ class CheckersBoard(game: Game): Board(game) {
         val pieces = if (color == PieceColor.WHITE) {whitePieces} else {blackPieces}
 
         if (pieces.isEmpty()) {
-            return StateOfGame.CHECK_MATE
+            return StateOfGame.CHECKMATE
         }
 
         for (piece in pieces) {
@@ -38,6 +38,6 @@ class CheckersBoard(game: Game): Board(game) {
             }
         }
 
-        return StateOfGame.CHECK_MATE
+        return StateOfGame.CHECKMATE
     }
 }

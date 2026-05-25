@@ -69,4 +69,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun getGames(): List<GameEntity> {
         return repository.getAllGames()
     }
+
+    suspend fun getMoves(gameId: String): List<MoveEntity> {
+        return repository.getMovesForGame(gameId)
+    }
 }

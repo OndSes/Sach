@@ -5,7 +5,7 @@
     android:id="@+id/gameContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:gravity="center">
 
     <TextView
@@ -15,7 +15,7 @@
         android:text="10:00"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginEnd="16dp"/>
 
     <GridLayout
         android:id="@+id/chessBoard"
@@ -31,6 +31,6 @@
         android:text="10:00"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginStart="16dp"/>
 
 </LinearLayout>

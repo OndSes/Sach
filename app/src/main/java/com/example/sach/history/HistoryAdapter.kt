@@ -14,7 +14,8 @@ import java.util.Locale
 
 class HistoryAdapter(
     private val games: MutableList<GameEntity>,
-    private val onDeleteClicked: (GameEntity, Int) -> Unit
+    private val onDeleteClicked: (GameEntity, Int) -> Unit,
+    private val onGameClicked: (GameEntity) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View)
@@ -69,6 +70,9 @@ class HistoryAdapter(
 
         holder.deleteButton.setOnClickListener {
             onDeleteClicked(game, position)
+        }
+        holder.itemView.setOnClickListener {
+            onGameClicked(game)
         }
     }
 

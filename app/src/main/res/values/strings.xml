@@ -8,4 +8,6 @@
     <string name="play_chess">Play Chess</string>
     <string name="play_checkers">Play Checkers</string>
     <string name="delete">Delete</string>
+    <string name="previous_move">Previous Move</string>
+    <string name="next_move">Next Move</string>
 </resources>

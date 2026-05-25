@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sach.R
@@ -50,16 +51,34 @@ class HistoryFragment : Fragment() {
 
             adapter =
                 HistoryAdapter(
-                    games.toMutableList()
-                ) { game, position ->
+                    games.toMutableList(),
+                    { game, position ->
 
-                    lifecycleScope.launch {
+                        lifecycleScope.launch {
 
-                        viewModel.deleteGame(game.gameId)
+                            viewModel.deleteGame(game.gameId)
 
-                        adapter.removeAt(position)
+                            adapter.removeAt(position)
+                        }
+                    },
+                    { game ->
+                        val bundle = Bundle()
+
+                        bundle.putString(
+                            "gameId",
+                            game.gameId
+                        )
+
+                        bundle.putString(
+                            "gameType",
+                            game.gameType)
+
+                        findNavController().navigate(
+                            R.id.replayFragment,
+                            bundle
+                        )
                     }
-                }
+                )
 
             recyclerView.adapter = adapter
         }

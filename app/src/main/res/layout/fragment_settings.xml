@@ -18,4 +18,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rotate_pieces" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/timerEnabledSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable Timer"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="White Time (minutes)"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/whiteTimeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="10"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Black Time (minutes)"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/blackTimeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="10"/>
+
 </LinearLayout>

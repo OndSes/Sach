@@ -15,7 +15,7 @@ interface GameDao {
     @Insert
     suspend fun insertMoves(moves: List<MoveEntity>)
 
-    @Query("SELECT * FROM GameEntity")
+    @Query("SELECT * FROM GameEntity ORDER BY date DESC")
     suspend fun getAllGames(): List<GameEntity>
 
     @Query("SELECT * FROM MoveEntity WHERE gameId = :gameId ORDER BY moveNumber")

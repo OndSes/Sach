@@ -2,7 +2,9 @@ package com.example.sach.game.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.view.View
 import android.widget.GridLayout
+import android.widget.TextView
 import com.example.sach.game.board.BoardSquare
 import com.example.sach.game.board.ChessBoard
 import com.example.sach.game.board.StateOfGame
@@ -15,7 +17,9 @@ import com.example.sach.game.pieces.chess.sliding.Bishop
 import com.example.sach.game.pieces.chess.sliding.Queen
 import com.example.sach.game.pieces.chess.sliding.Rook
 
-class BoardRenderer(val boardView: GridLayout, val context: Context, val game: Game) {
+class BoardRenderer(val boardView: GridLayout, val context: Context, var game: Game,
+                    val whiteTimer: TextView?, val blackTimer: TextView?) {
+    val timers = whiteTimer != null && blackTimer != null
     val squares: Array<Array<SquareView>> =
         Array(8) { row ->
             Array(8) { col ->
@@ -24,7 +28,6 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
         }
     var selectedSquare: SquareView? = null
     var onSaveGameRequested: (() -> Unit)? = null
-
     init {
         boardView.removeAllViews()
 
@@ -37,6 +40,10 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
                 boardView.addView(square.container)
             }
         }
+        if (timers && !game.isTimerEnabled) {
+            whiteTimer!!.visibility = View.GONE
+            blackTimer!!.visibility = View.GONE
+        }
 
         game.onBoardChanged = { refreshBoard() }
         game.onPieceSelected = { moves ->
@@ -46,16 +53,27 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
         }
         game.onPromotionRequested = { pawn -> requestPromotion(pawn) }
         game.onGameOver = { color, state ->
-            val message: String = if (state == StateOfGame.CHECK_MATE) {
-                when (color) {
-                    PieceColor.WHITE -> "Checkmate! White Wins"
-                    PieceColor.BLACK -> "Checkmate! Black Wins"
+            val message: String = when (state) {
+                StateOfGame.CHECKMATE -> {
+                    when (color) {
+                        PieceColor.WHITE -> "Checkmate! White Wins"
+                        PieceColor.BLACK -> "Checkmate! Black Wins"
+                    }
                 }
-            }  else {
-                "Draw by Stalemate"
+                StateOfGame.TIMEOUT -> {
+                    when (color) {
+                        PieceColor.WHITE -> "White Wins On Timeout"
+                        PieceColor.BLACK -> "Black Wins On Timeout"
+                    }
+                }
+                else -> "Draw by Stalemate"
             }
             showGameOverMessage(message) }
 
+        game.onTimerChanged = { whiteTime, blackTime ->
+                blackTimer!!.text = formatTime(blackTime)
+                whiteTimer!!.text = formatTime(whiteTime)
+            }
         refreshBoard()
     }
 
@@ -71,7 +89,7 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
         if (game.settings.rotateBoard) {
             rotate(game.turnColor)
         } else if (game.settings.rotatePieces) {
-            rotatePieces()
+            rotatePieces(game.turnColor)
         }
 
         resetViews()
@@ -131,13 +149,14 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
             .setDuration(300)
             .start()
 
-        rotatePieces()
+        rotatePieces(turnColor)
     }
 
-    fun rotatePieces() {
+    fun rotatePieces(turnColor: PieceColor) {
+        val rotation = if (turnColor == PieceColor.WHITE) 0f else 180f
         for (row in squares) {
             for (square in row) {
-                square.rotateView()
+                square.rotateView(rotation)
             }
         }
     }
@@ -207,5 +226,14 @@ class BoardRenderer(val boardView: GridLayout, val context: Context, val game: G
                 refreshBoard()
             }
             .show()
+    }
+
+    fun formatTime(millis: Long): String {
+        val totalSeconds = millis / 1000
+
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+
+        return String.format("%02d:%02d", minutes, seconds)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.sach.game.games
 
+import android.os.CountDownTimer
 import com.example.sach.game.Settings
 import com.example.sach.game.board.Board
 import com.example.sach.game.board.BoardSquare
@@ -13,11 +14,16 @@ abstract class Game(val settings: Settings) {
     lateinit var board: Board
     var turnColor: PieceColor = PieceColor.WHITE
     val moves = mutableListOf<String>()
+    var whiteTimeMillis: Long = settings.whiteTimeMinutes * 60_000L
+    var blackTimeMillis: Long = settings.blackTimeMinutes * 60_000L
+    var isTimerEnabled = settings.timerEnabled
+    private var timer: CountDownTimer? = null
     var selectedSquare: BoardSquare? = null
     var onBoardChanged: (() -> Unit)? = null
     var onPieceSelected: ((List<BoardSquare>) -> Unit)? = null
     var onPromotionRequested: ((Pawn) -> Unit)? = null
     var onGameOver: ((PieceColor, StateOfGame) -> Unit)? = null
+    var onTimerChanged: ((Long, Long) -> Unit)? = null
     fun movePiece(square: BoardSquare) {
         selectedSquare!!.piece!!.move(square)
         nextMove()
@@ -38,5 +44,40 @@ abstract class Game(val settings: Settings) {
 
     fun recordMove(move: String) {
         moves.add(move)
+    }
+
+    fun startTimer() {
+        if (!isTimerEnabled) {
+            return
+        }
+
+        timer?.cancel()
+
+        timer = object : CountDownTimer(Long.MAX_VALUE, 1000) {
+                override fun onTick(
+                    millisUntilFinished: Long
+                ) {
+                    if (turnColor == PieceColor.WHITE) {
+                        whiteTimeMillis -= 1000
+                    } else {
+                        blackTimeMillis -= 1000
+                    }
+
+                    onTimerChanged?.invoke(whiteTimeMillis, blackTimeMillis)
+                    checkTimeout()
+                }
+                override fun onFinish() {}
+            }
+        timer?.start()
+    }
+
+    private fun checkTimeout() {
+        if (whiteTimeMillis <= 0) {
+            onGameOver?.invoke(turnColor.opposite, StateOfGame.TIMEOUT)
+            timer?.cancel()
+        } else if (blackTimeMillis <= 0) {
+            onGameOver?.invoke(turnColor.opposite, StateOfGame.TIMEOUT)
+            timer?.cancel()
+        }
     }
 }

@@ -57,7 +57,7 @@ class ChessBoard(game: Game): Board(game) {
         }
 
         if (isKingInCheck(color, null)) {
-            return StateOfGame.CHECK_MATE
+            return StateOfGame.CHECKMATE
         }
         return StateOfGame.STALEMATE
     }
